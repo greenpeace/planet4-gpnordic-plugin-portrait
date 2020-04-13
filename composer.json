@@ -1,0 +1,10 @@
+{
+    "name": "greenpeace/planet4-gpnordic-plugin-portrait",
+    "description": "WordPress plugin for Greenpeace Nordic",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0+",
+    "require-dev": {},
+    "require": {},
+    "scripts": {}
+  }
+  

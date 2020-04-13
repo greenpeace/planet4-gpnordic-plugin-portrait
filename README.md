@@ -1,1 +1,1 @@
-# planet4-gpnordic-plugin-portrait
+# Greenpeace Nordic Planet4 Protrait Plugin
