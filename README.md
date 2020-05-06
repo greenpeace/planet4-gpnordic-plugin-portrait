@@ -1,1 +1,2 @@
-# Greenpeace Nordic Planet4 Protrait Plugin
+## Portrait Plugin
+#### Planet 4, Greenpeace Nordic
