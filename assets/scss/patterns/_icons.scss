@@ -1,0 +1,11 @@
+/* Custom icons */
+
+$icons: (
+  'test'
+);
+
+@each $value in $icons {
+  .icon-#{$value} {
+    background: url('../images/icons/#{$value}.svg') no-repeat center center / contain;
+  }
+}

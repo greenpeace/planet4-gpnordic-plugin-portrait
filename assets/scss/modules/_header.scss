@@ -1,0 +1,33 @@
+/* HEADER */
+
+.top-nav {
+  padding: rem-calc(10 0);
+  >.row {
+    min-width: 100%;
+  }
+  //Logo
+  h1.logo {
+    line-height: 0;
+    margin-bottom: 0;
+    a {
+      font-size: 0;
+      height: rem-calc(40);
+      width: rem-calc(120);
+      display: block;
+      background-image: url();
+      background-position: center left;
+      background-size: contain;
+      background-repeat: no-repeat;
+      border: 1px solid black;
+    }
+  }
+  // Menu
+  ul {
+    li {
+      display: inline-block;
+      margin-right: rem-calc(10);
+      a{}
+      &.current_page_item {}
+    }
+  }
+}

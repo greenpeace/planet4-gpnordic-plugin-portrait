@@ -1,0 +1,173 @@
+/*
+* Create classes for top- and bottom margin: tm-10, tm-20, tm-30, bm-10, bm-20, bm-30 etc
+*/
+
+@for $i from 0 through 10 {
+  .m-#{$i}0
+	{
+		margin: $i * 10px !important;
+	}
+	.tm-#{$i}0
+	{
+		margin-top: $i * 10px !important;
+	}
+	.rm-#{$i}0
+	{
+		margin-right: $i * 10px !important;
+	}
+  .bm-#{$i}0
+	{
+		margin-bottom: $i * 10px !important;
+	}
+	.lm-#{$i}0
+	{
+		margin-left: $i * 10px !important;
+	}
+  .p-#{$i}0
+	{
+		padding: $i * 10px !important;
+	}
+  .tp-#{$i}0
+	{
+		padding-top: $i * 10px !important;
+	}
+	.rp-#{$i}0
+	{
+		padding-right: $i * 10px !important;
+	}
+  .bp-#{$i}0
+	{
+		padding-bottom: $i * 10px !important;
+	}
+	.lp-#{$i}0
+	{
+		padding-left: $i * 10px !important;
+	}
+}
+
+
+@for $i from 0 through 10 {
+  .medium-m-#{$i}0
+	{
+    @include breakpoint(medium down) {
+  		margin: $i * 10px !important;
+    }
+	}
+	.medium-tm-#{$i}0
+	{
+    @include breakpoint(medium down) {
+  		margin-top: $i * 10px !important;
+    }
+	}
+	.medium-rm-#{$i}0
+	{
+    @include breakpoint(medium down) {
+  		margin-right: $i * 10px !important;
+    }
+	}
+  .medium-bm-#{$i}0
+	{
+    @include breakpoint(medium down) {
+  		margin-bottom: $i * 10px !important;
+    }
+	}
+	.medium-lm-#{$i}0
+	{
+    @include breakpoint(medium down) {
+  		margin-left: $i * 10px !important;
+    }
+	}
+  .medium-p-#{$i}0
+	{
+    @include breakpoint(medium down) {
+  		padding: $i * 10px !important;
+    }
+	}
+  .medium-tp-#{$i}0
+	{
+    @include breakpoint(medium down) {
+		  padding-top: $i * 10px !important;
+    }
+	}
+	.medium-rp-#{$i}0
+	{
+    @include breakpoint(medium down) {
+		  padding-right: $i * 10px !important;
+    }
+	}
+  .medium-bp-#{$i}0
+	{
+    @include breakpoint(medium down) {
+		  padding-bottom: $i * 10px !important;
+    }
+	}
+	.medium-lp-#{$i}0
+	{
+    @include breakpoint(medium down) {
+		  padding-left: $i * 10px !important;
+    }
+	}
+}
+
+@for $i from 0 through 10 {
+  .small-m-#{$i}0
+	{
+    @include breakpoint(small down) {
+  		margin: $i * 10px !important;
+    }
+	}
+	.small-tm-#{$i}0
+	{
+    @include breakpoint(small down) {
+  		margin-top: $i * 10px !important;
+    }
+	}
+	.small-rm-#{$i}0
+	{
+    @include breakpoint(small down) {
+  		margin-right: $i * 10px !important;
+    }
+	}
+  .small-bm-#{$i}0
+	{
+    @include breakpoint(small down) {
+  		margin-bottom: $i * 10px !important;
+    }
+	}
+	.small-lm-#{$i}0
+	{
+    @include breakpoint(small down) {
+  		margin-left: $i * 10px !important;
+    }
+	}
+  .small-p-#{$i}0
+	{
+    @include breakpoint(small down) {
+  		padding: $i * 10px !important;
+    }
+	}
+  .small-tp-#{$i}0
+	{
+    @include breakpoint(small down) {
+		  padding-top: $i * 10px !important;
+    }
+	}
+	.small-rp-#{$i}0
+	{
+    @include breakpoint(small down) {
+		  padding-right: $i * 10px !important;
+    }
+	}
+  .small-bp-#{$i}0
+	{
+    @include breakpoint(small down) {
+		  padding-bottom: $i * 10px !important;
+    }
+	}
+	.small-lp-#{$i}0
+	{
+    @include breakpoint(small down) {
+		  padding-left: $i * 10px !important;
+    }
+	}
+}

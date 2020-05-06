@@ -1,0 +1,14 @@
+/* CUSTOM CALLOUTS */
+
+.callout {
+  background: #ffffff;
+  border: 1px solid black;
+  &--alert {
+    background-color: red;
+    border: none;
+  }
+  &--success {
+    background-color: green;
+    border: none;
+  }
+}

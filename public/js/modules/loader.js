@@ -1,0 +1,1 @@
+"use strict";Vue.component("loader",{props:[],data:function(){return{}},template:'\n\t\t<div ref="loader" class="loader"></div>\n  ',mounted:function(){lottie.loadAnimation({container:this.$refs.loader,renderer:"svg",loop:!0,autoplay:!0,path:greenpeace_petition_ajax.gppt_url+"/public/json/loader.json"})},methods:{}});

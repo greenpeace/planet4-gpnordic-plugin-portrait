@@ -1,0 +1,83 @@
+.app-content {
+  padding-top: 180px;
+  margin-bottom: 60px;
+  color: $yellow;
+  @include breakpoint(medium down) {
+    padding-top: 160px;
+  }
+  h1 {
+    font-size: 12vw;
+    line-height: 100%;
+    margin-bottom: 40px;
+    font-weight: 800;
+    @include breakpoint(medium down) {
+      font-size: 18vw;
+      line-height: 100%;
+    }
+  }
+  .excerpt {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    max-width: 780px;
+    margin: auto;
+    color: #fff;
+    @include breakpoint(small down) {
+      font-size: 20px;
+      line-height: 28px;
+    }
+    span {
+      background-color: $yellow;
+      color: $blue--dark;
+      padding: 0 4px;
+    }
+  }
+  // .demands {
+  //   h2 {
+  //     font-size: 32px;
+  //     line-height: 40px;
+  //     color: $blue--light;
+  //     @include breakpoint(medium down) {
+  //       font-size: 20px;
+  //       line-height: 28px;
+  //     }
+  //   }
+  //   &__wrapper {
+  //     display: flex;
+  //     justify-content: center;
+  //     padding-top: 32px;
+  //     @include breakpoint(medium down) {
+  //       padding-top: 16px;
+  //       flex-direction: column;
+  //     }
+  //   }
+  //   &__item {
+  //     background-color: $blue--dark;
+  //     margin: 0 40px;
+  //     text-align: center;
+  //     padding: 30px 45px;
+  //     text-transform: uppercase;
+  //     min-width: 410px;
+  //     @include breakpoint(medium down) {
+  //       padding: 24px 30px;
+  //       min-width: 100%;
+  //       margin: 8px 0;
+  //     }
+  //     h3 {
+  //       font-size: 36px;
+  //       line-height: 48px;
+  //       color: $blue--light;
+  //       @include breakpoint(medium down) {
+  //         font-size: 24px;
+  //         line-height: 32px;
+  //       }
+  //       span {
+  //         border-bottom: 4px solid #fff;
+  //         @include breakpoint(medium down) {
+  //           border-bottom: 3px solid #fff;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+}

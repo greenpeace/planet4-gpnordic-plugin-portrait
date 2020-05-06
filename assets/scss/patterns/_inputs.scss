@@ -1,0 +1,39 @@
+/* CUSTOM INPUTS */
+
+input, select {
+  &:hover{}
+  &:focus, &:active {}
+  &::placeholder {}
+}
+
+
+// Custom checkbox
+.checkbox {
+  position: relative;
+  display: block;
+  padding-left: 44px;
+  cursor: pointer;
+  text-transform: none;
+  text-align: left;
+  margin-left: 10px;
+  color: #fff !important;
+  input.checkbox__input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+  .checkbox__box {
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    transition: all 200ms ease-in-out;
+  }
+}
+.checkbox input.checkbox__input:checked ~ .checkbox__box {
+  background-color: #fff;
+}

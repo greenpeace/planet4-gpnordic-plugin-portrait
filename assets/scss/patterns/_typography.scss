@@ -1,0 +1,57 @@
+/* Text decorations */
+.gp-petition {
+  font-family: $body-font-family;
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .underline {
+    text-decoration: underline;
+  }
+
+  /* Weights */
+  .regular {
+    font-weight: 400;
+  }
+  .bold {
+    font-weight: 700;
+  }
+  .black {
+    font-weight: 800;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: $header-font-family;
+  }
+
+  /* Responsive text alignment */
+  .medium-down-text-right {
+    @include breakpoint(medium down) {
+      text-align: right !important;
+    }
+  }
+  .medium-down-text-center {
+    @include breakpoint(medium down) {
+      text-align: center !important;
+    }
+  }
+  .medium-down-text-left {
+    @include breakpoint(medium down) {
+      text-align: left !important;
+    }
+  }
+  .small-down-text-right {
+    @include breakpoint(small down) {
+      text-align: right !important;
+    }
+  }
+  .small-down-text-center {
+    @include breakpoint(small down) {
+      text-align: center !important;
+    }
+  }
+  .small-down-text-left {
+    @include breakpoint(small down) {
+      text-align: left !important;
+    }
+  }
+}

@@ -1,0 +1,159 @@
+/* CUSTOM LINKS / BUTTON STYLING */
+
+.gp-petition {
+  a.button {
+    background-color: $yellow;
+    padding: 15px 30px;
+    font-size: 24px;
+    line-height: 32px;
+    color: $blue--dark;
+    font-weight: bold;
+    border-radius: 7px;
+    @include breakpoint(medium down) {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    &:hover {
+      background: $yellow;
+      color: rgba($blue--dark, .6);
+      &:before, &:after {
+        opacity: .6;
+      }
+    }
+    &--no-bg {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: #fff !important;
+      border: none;
+      font-size: 16px;
+      line-height: 24px;
+      border-bottom: 2px solid #fff;
+      &:hover {
+        background: transparent;
+        opacity: .6;
+      }
+    }
+    &:before {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 20px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      transition: opacity 200ms ease;
+      @include breakpoint(medium down) {
+        margin-right: 16px;
+      }
+    }
+    &:after {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      transition: opacity 200ms ease;
+      @include breakpoint(medium down) {
+        margin-left: 16px;
+      }
+    }
+    &--camera {
+      &:before {
+        content: '';
+        height: 23px;
+        width: 26px;
+        bottom: 2px;
+        background-image: url(../assets/images/icons/camera--dark.svg);
+        @include breakpoint(medium down) {
+          height: 15px;
+          width: 18px;
+          bottom: 1px;
+        }
+      }
+    }
+    &--back {
+      &:before {
+        content: '';
+        height: 21px;
+        width: 26px;
+        bottom: 2px;
+        background-image: url(../assets/images/icons/arrow-back--dark.svg);
+        @include breakpoint(medium down) {
+          height: 15px;
+          width: 17px;
+        }
+      }
+    }
+    &--chat {
+      &:before {
+        content: '';
+        height: 24px;
+        width: 24px;
+        bottom: 2px;
+        background-image: url(../assets/images/icons/chat--dark.svg);
+        @include breakpoint(medium down) {
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+    &--brush {
+      &:before {
+        content: '';
+        height: 24px;
+        width: 24px;
+        bottom: 2px;
+        background-image: url(../assets/images/icons/brush--dark.svg);
+        @include breakpoint(medium down) {
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+    &--send {
+      &:after {
+        content: '';
+        height: 20px;
+        width: 19px;
+        bottom: 3px;
+        background-image: url(../assets/images/icons/arrow-right--dark.svg);
+        @include breakpoint(medium down) {
+          height: 14px;
+          width: 13px;
+        }
+      }
+    }
+    &--blue {
+      background-color: $blue--light;
+      &:hover {
+        background-color: $blue--light;
+      }
+    }
+    &--secondary{
+      background-color: rgba($yellow, .1);
+      color: $yellow;
+      &:before, &:after {
+        opacity: .25;
+      }
+      &:hover {
+        background: $yellow;
+        color: $blue--dark;
+        &:before, &:after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .button-wrapper {
+    a.button {
+      margin: 0 10px;
+      @include breakpoint(medium down) {
+        margin: 0 6px;
+      }
+    }
+}
+}
