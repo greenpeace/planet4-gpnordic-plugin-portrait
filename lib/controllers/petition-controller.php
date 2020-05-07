@@ -85,7 +85,7 @@ class GPPT_Petition_Controller {
 	 * Register meta box(es).
 	 */
 	public static function register_meta_boxes() {
-		add_meta_box( 'mapped-comments', __( 'Map Comments', 'greenwash' ), __NAMESPACE__ . '\\GPPT_Petition_Controller::petition_image_display_callback', 'petition' );
+		add_meta_box( 'mapped-comments', __( 'Approve Images', 'greenwash' ), __NAMESPACE__ . '\\GPPT_Petition_Controller::petition_image_display_callback', 'petition' );
 	}
 
 	/**
