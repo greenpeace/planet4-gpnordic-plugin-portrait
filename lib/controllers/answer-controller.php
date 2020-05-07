@@ -8,10 +8,15 @@ class GPPT_Answer_Controller {
       $petition_id = $args['petition_id'];
       $petitions = new \WP_Query( array(
         'post_type' => 'attachment',
-        'posts_per_page' => 1,
+        'posts_per_page' => isset($args['num_images']) ? $args['num_images'] : 10,
         'orderby' => 'rand',
         'post_status' => 'any',
         'meta_query' => array(
+          'relation' => 'AND',
+  				array(
+  					'key' => 'image_approved',
+  					'compare' => '1',
+  				),
           array(
             'key'     => 'petition_id',
             'value'   => $petition_id,
@@ -40,8 +45,8 @@ class GPPT_Answer_Controller {
       $email = $args['email'];
       $phone = $args['phone'];
       $date = date('Y-m-d');
-      $utm = $args['utm'];
-
+      $hash = wp_generate_uuid4();
+      $utm = $args['utm'] !== '' ? $args['utm'] . '&hash=' . $hash : 'hash=' . $hash;
       $image = str_replace(' ', '+', $args['image']);
       $image = substr($image, strpos($image, ',') + 1);
       $image = base64_decode($image);
@@ -49,7 +54,7 @@ class GPPT_Answer_Controller {
       $image_no_text = substr($image_no_text, strpos($image_no_text, ',') + 1);
       $image_no_text = base64_decode($image_no_text);
       $country = get_field( 'country', $petition_id );
-      error_log( $country );
+      $source_code = get_field( 'source_code', $petition_id );
       $images = array(
         'image' => $image,
         'image_no_text' => $image_no_text,
@@ -76,15 +81,13 @@ class GPPT_Answer_Controller {
         MOBILE: "+44 123455678"
         UTM: "A UTM string"
         */
-        $result = $db->query("INSERT INTO LEADS VALUES (null,'$email','$firstname','$lastname','$date',true,'PETITION_$petition_id','$country','$phone','$utm');");
+        $result = $db->query("INSERT INTO LEADS VALUES (null,'$email','$firstname','$lastname','$date',true,'$source_code','$country','$phone','$utm');");
         // $result = $db->query("SELECT * FROM LEADS;");
-        // TODO: Store UTM, phone and countrycode
         $db->close();
         // return $result->fetch_object();
       }
 
       $upload_dir = wp_upload_dir();
-      $hash = wp_generate_uuid4();
       $path = $upload_dir['basedir'] . '/petitions/' . $petition_id;
       foreach( $images as $key => $i ) {
         $filename = basename( "$hash-$key.jpg" );
@@ -110,11 +113,19 @@ class GPPT_Answer_Controller {
         $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
         wp_update_attachment_metadata( $attach_id, $attach_data );
         update_post_meta( $attach_id, 'petition_id', $petition_id );
+        update_post_meta( $attach_id, 'hash', $hash );
+        update_post_meta( $attach_id, 'image_type', $key );
       }
       return true;
     } catch( Exception $e ) {
       return $e;
     }
+  }
+
+  public static function approve_reject($args) {
+    // TODO: Check so that user is logged in
+    update_post_meta( $args['id'], 'image_approved', $args['approve'] );
+    return true;
   }
 
   public static function register_api_routes() {
@@ -124,10 +135,16 @@ class GPPT_Answer_Controller {
       'callback' => __NAMESPACE__ . '\\GPPT_Answer_Controller::get',
     ) );
 
-    // Set Petition
+    // Post Petition
     register_rest_route( "gppt/v1", '/answers', array(
       'methods' => 'POST',
       'callback' => __NAMESPACE__ . '\\GPPT_Answer_Controller::set',
+    ) );
+
+    // Approve / Reject
+    register_rest_route( "gppt/v1", '/answers/(?P<id>\d+)', array(
+      'methods' => 'POST',
+      'callback' => __NAMESPACE__ . '\\GPPT_Answer_Controller::approve_reject',
     ) );
   }
 }

@@ -10,8 +10,9 @@
     font-weight: bold;
     border-radius: 7px;
     @include breakpoint(medium down) {
-      font-size: 16px;
-      line-height: 24px;
+      font-size: 14px;
+      line-height: 22px;
+      padding: 12px 20px;
     }
     &:hover {
       background: $yellow;
@@ -126,6 +127,54 @@
         }
       }
     }
+    &--facebook {
+      font-size: 16px;
+      line-height: 24px;
+      padding: 12px 24px;
+      &:before {
+        content: '';
+        height: 16px;
+        width: 16px;
+        bottom: 2px;
+        background-image: url(../assets/images/icons/facebook--dark.svg);
+        @include breakpoint(medium down) {
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+    &--twitter {
+      font-size: 16px;
+      line-height: 24px;
+      padding: 12px 24px;
+      &:before {
+        content: '';
+        height: 13px;
+        width: 16px;
+        bottom: 1px;
+        background-image: url(../assets/images/icons/twitter--dark.svg);
+        @include breakpoint(medium down) {
+          height: 13px;
+          width: 16px;
+        }
+      }
+    }
+    &--instagram {
+      font-size: 16px;
+      line-height: 24px;
+      padding: 12px 24px;
+      &:before {
+        content: '';
+        height: 14px;
+        width: 14px;
+        bottom: 2px;
+        background-image: url(../assets/images/icons/instagram--dark.svg);
+        @include breakpoint(medium down) {
+          height: 14px;
+          width: 14px;
+        }
+      }
+    }
     &--blue {
       background-color: $blue--light;
       &:hover {
@@ -154,6 +203,53 @@
       @include breakpoint(medium down) {
         margin: 0 6px;
       }
+      @include breakpoint(small down) {
+        margin-bottom: 10px;
+      }
     }
+  }
 }
+
+.switch {
+  display: inline-block;
+  padding: 4px;
+  position: relative;
+  background-color: rgba($yellow, .1);
+  border-radius: 2px;
+  cursor: pointer;
+  span {
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 40px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    &:first-of-type {
+      margin-right: 3px;
+    }
+    &.active {
+      color: $blue--dark;
+    }
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: 40px;
+    width: 40px;
+    background-color: $yellow;
+    border-radius: 2px;
+    transform: translateX(46px);
+    transition: transform 200ms ease-in-out;
+  }
+  &--active {
+    &:after {
+      transform: translateX(0px);
+    }
+  }
 }

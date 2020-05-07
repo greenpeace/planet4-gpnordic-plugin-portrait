@@ -17,10 +17,19 @@ input, select {
   text-align: left;
   margin-left: 10px;
   color: #fff !important;
+  @include breakpoint(small down) {
+    margin-left: 0;
+    margin-bottom: 16px;
+    padding-left: 34px;
+  }
   input.checkbox__input {
     position: absolute;
     z-index: -1;
     opacity: 0;
+  }
+  a {
+    color: #fff;
+    text-decoration: underline;
   }
   .checkbox__box {
     width: 24px;
@@ -32,6 +41,9 @@ input, select {
     border: 2px solid #fff;
     border-radius: 100%;
     transition: all 200ms ease-in-out;
+    @include breakpoint(small down) {
+      top: 0;
+    }
   }
 }
 .checkbox input.checkbox__input:checked ~ .checkbox__box {

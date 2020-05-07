@@ -47,10 +47,9 @@ Vue.component('canvas-editor', {
           <a class="next" @click="changeMessage('+')"></a>
         </div>
       </div>
-      <p class="canvas-instructions">Ta en bild genom att godkänn användning av kameran på din dator/mobil och delta i protesten. Du kan även fortsätta utan bild.</p>
       <div class="button-wrapper">
-			   <a class="button button--back button--secondary" @click="clear()">Tillbaka</a>
-			   <a class="button button--brush" @click="save()">Gå vidare</a>
+			   <a class="button button--back button--secondary" @click="clear()" v-html="greenpeace_petition_ajax.translations['Back']"></a>
+			   <a class="button button--brush" @click="save()" v-html="greenpeace_petition_ajax.translations['Next step']"></a>
       </div>
     </div>
   `,

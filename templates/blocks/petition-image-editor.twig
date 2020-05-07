@@ -1,0 +1,7 @@
+<div id="gp-petition-image-editor" class="gp-petition-image-editor">
+  <div v-for="image in images">
+    <img :src="image.image" alt="">
+    <a @click="approve(image)">Accept</a>
+    <a @click="reject(image)">Reject</a>
+  </div>
+</div>
