@@ -55,6 +55,7 @@ class GPPT_Petition_Controller {
 				'E-mail' => __('E-mail', 'gppt'),
 				'Phone' => __('Phone', 'gppt'),
 				'Phone' => __('Phone', 'gppt'),
+				'Leave a comment' => __('Leave a comment', 'gppt'),
 				'I accept the terms' => __('I accept the terms', 'gppt'),
 				'Keep me posted' => __('Keep me posted', 'gppt'),
 				'Make sure you have entered your name and provided a working e-mail address.' => __('Make sure you have entered your name and provided a working e-mail address.', 'gppt'),
@@ -78,8 +79,6 @@ class GPPT_Petition_Controller {
 		);
 		$block_output = \Timber::compile( GPPT_PLUGIN_ROOT_URI . 'templates/blocks/petition.twig', $data, 10, \Timber\Loader::CACHE_NONE );
 		return $block_output;
-		// compile( array/string $filenames, array $data=array(), bool/bool/int $expires=false, string $cache_mode="default", bool $via_render=false )
-		// return "<div id='background' data-petition-id='" . $atts['id'] . "' v-cloak></div><div id='app' data-petition-id='" . $atts['id'] . "' v-cloak></div>";
 	}
 
 	/**
@@ -95,12 +94,6 @@ class GPPT_Petition_Controller {
 	 * @param WP_Post $post Current post object.
 	 */
 	public static function petition_image_display_callback( $post ) {
-		// global $image;
-		// global $markers;
-		// $image = ArticleController::get_article_featured_image( array( 'post_id' => $post->ID ) );
-		// $markers = get_post_meta( $post->ID, 'markers', true );
-		// $markers = $markers ? json_decode($markers) : [];
-		// \Docks_Utilities::get_template_parts( array( 'parts/shared/modules/article_editor' ) );
 		$image_query = new \WP_Query( array(
 			'post_type' => 'attachment',
 			'posts_per_page' => -1,

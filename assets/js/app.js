@@ -10,8 +10,14 @@ jQuery(function() {
 			blurr: false,
 		},
 		mounted: function() {
-			jQuery.get( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, { num_images: this.numBoxes }, (result) => {
-				this.images = result
+			jQuery.get( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, { petition_id: greenpeace_petition_ajax.petition.id, num_images: this.numBoxes }, (result) => {
+				let images = result
+				if( result.length < this.numBoxes ) {
+					for(let i=0; i < this.numBoxes; i++){
+    				images.push( result[ lodash.random(0, result.length -1) ] )
+					}
+				}
+				this.images = images
 			} )
 			window.addEventListener('scroll', (e) => {
 				let scrollTop = jQuery(window).scrollTop()
@@ -30,13 +36,13 @@ jQuery(function() {
 	new Vue({
 		el: '#app',
 		template: `<div>
-			<div class="joing-protest" v-if="step == 5">
+			<div class="join-protest" v-if="step == 5">
 				<div v-html="join_protest_text"></div>
 				<div class="tp-40 small-tp-20">
 					<a @click="step = 0" class="button" v-text="greenpeace_petition_ajax.translations['Join the protest']"></a>
 				</div>
 			</div>
-			<div class="category-select" v-if="step < 4">
+			<div class="category-select" v-if="step < 3">
 				<div class="controls" v-if="categories.length > 1">
 					<a @click="changeCategory('-')" ></a>
 					<h2 v-html="'<span>Category:</span> ' + activeCategory.title"></h2>
@@ -84,7 +90,7 @@ jQuery(function() {
 							<input :placeholder="greenpeace_petition_ajax.translations['Phone']" type="text" v-model="details.phone">
 						</div>
 						<div class="input-wrapper input-wrapper--wide">
-							<input :placeholder="greenpeace_petition_ajax.translations['Phone']" type="text" v-model="details.own_protest">
+							<input :placeholder="greenpeace_petition_ajax.translations['Leave a comment']" type="text" v-model="details.own_protest">
 						</div>
 						<div class="bm-20 small-bm-10">
 							<label class="checkbox" v-if="!loading">I accept <a :href="terms_url" target="_blank">{{greenpeace_petition_ajax.translations['the terms']}}</a>
@@ -151,11 +157,11 @@ jQuery(function() {
 			composition: '',
 			composition_no_text: '',
 			details: {
-				firstname: 'Jens',
-				lastname: 'W',
-				email: 'jens@simmalugnt.se',
-				phone: '+46 702 059300',
-				own_protest: 'This is my own protest',
+				firstname: '',
+				lastname: '',
+				email: '',
+				phone: '',
+				own_protest: '',
 				terms: false,
 				newsletter: false,
 				projections: true,
@@ -227,7 +233,24 @@ jQuery(function() {
 				this.error = !this.details.terms || this.details.firstname === '' || this.details.lastname === '' || this.details.email === '' || !re.test(String(this.details.email).toLowerCase())
 				if( !this.error ) {
 					this.loading = true
-					jQuery.post( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, { petition_id: greenpeace_petition_ajax.petition.id, utm: greenpeace_petition_ajax.utm, image: this.composition, image_no_text: this.composition_no_text, firstname: this.details.firstname, lastname: this.details.lastname, email: this.details.email, phone: this.details.phone, nonce: greenpeace_petition_ajax.nonce }, response => {
+					this.scrollFormIntoView()
+					jQuery.post( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, {
+						petition_id: greenpeace_petition_ajax.petition.id,
+						utm: greenpeace_petition_ajax.utm,
+						image: this.composition,
+						image_no_text: this.composition_no_text,
+						firstname: this.details.firstname,
+						lastname: this.details.lastname,
+						email: this.details.email,
+						phone: this.details.phone,
+						own_protest: this.details.own_protest,
+						terms: this.details.terms,
+						newsletter: this.details.newsletter,
+						projections: this.details.projections,
+						articles: this.details.articles,
+						nonce: greenpeace_petition_ajax.nonce
+
+					}, response => {
 						this.loading = false
 						this.setStep( 4 )
 					} )
@@ -235,15 +258,18 @@ jQuery(function() {
 			},
 			setStep: function( step ) {
 				this.step = step
-				if( this.step == 1 ) {
-					Vue.nextTick(() => {
+				Vue.nextTick(() => {
+					if( this.step == 1 ) {
 						let video_wrapper = jQuery('.video-wrapper')
 						this.video_width = video_wrapper[0].offsetWidth
 						this.video_height = video_wrapper[0].offsetWidth
-					})
-				}
-				if( this.step == 2 ) {
-				}
+					}
+					this.scrollFormIntoView()
+				})
+			},
+			scrollFormIntoView() {
+				let position = jQuery('.form-wrapper').offset()
+				jQuery('html, body').stop().animate({ scrollTop: position.top - 80 }, 500, 'swing', () => {})
 			},
 			changeCategory: function( direction ) {
 				console.log( direction, this.active_category_index, this.categories.length )

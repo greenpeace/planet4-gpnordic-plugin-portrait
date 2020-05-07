@@ -44,6 +44,11 @@ class GPPT_Answer_Controller {
       $lastname = $args['lastname'];
       $email = $args['email'];
       $phone = $args['phone'];
+      $own_protest = $args['own_protest'];
+      $terms = $args['terms'];
+      $newsletter = $args['newsletter'];
+      $projections = $args['projections'];
+      $articles = $args['articles'];
       $date = date('Y-m-d');
       $hash = wp_generate_uuid4();
       $utm = $args['utm'] !== '' ? $args['utm'] . '&hash=' . $hash : 'hash=' . $hash;
@@ -81,7 +86,7 @@ class GPPT_Answer_Controller {
         MOBILE: "+44 123455678"
         UTM: "A UTM string"
         */
-        $result = $db->query("INSERT INTO LEADS VALUES (null,'$email','$firstname','$lastname','$date',true,'$source_code','$country','$phone','$utm');");
+        $result = $db->query("INSERT INTO LEADS VALUES (null,'$email','$firstname','$lastname','$date','$newsletter','$source_code','$country','$phone','$utm');");
         // $result = $db->query("SELECT * FROM LEADS;");
         $db->close();
         // return $result->fetch_object();
@@ -105,7 +110,8 @@ class GPPT_Answer_Controller {
           'post_mime_type' => $wp_filetype['type'],
           'post_title' => sanitize_file_name( $filename ),
           'post_content' => '',
-          'post_status' => 'inherit'
+          'post_status' => 'inherit',
+          'post_excerpt' => $own_protest
         );
 
         $attach_id = wp_insert_attachment( $attachment, $file );
@@ -115,6 +121,10 @@ class GPPT_Answer_Controller {
         update_post_meta( $attach_id, 'petition_id', $petition_id );
         update_post_meta( $attach_id, 'hash', $hash );
         update_post_meta( $attach_id, 'image_type', $key );
+        update_post_meta( $attach_id, 'approved_terms', $terms );
+        update_post_meta( $attach_id, 'newsletter', $newsletter );
+        update_post_meta( $attach_id, 'approve_for_projections', $projections );
+        update_post_meta( $attach_id, 'approve_for_articles', $articles );
       }
       return true;
     } catch( Exception $e ) {

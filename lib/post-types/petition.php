@@ -6,7 +6,7 @@ function create_petition_post_type() {
   register_post_type( 'petition',
     array(
       'labels' => array(
-        'name' => __( 'Petitions' ),
+        'name' => __( 'Rich Engagement' ),
         'singular_name' => __( 'Petition' )
       ),
       'public' => true,

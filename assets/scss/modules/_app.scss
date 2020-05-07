@@ -376,6 +376,7 @@
       padding: 20px;
       border-radius: 4px;
       margin-top: 16px;
+      width: 50%;
       &:first-of-type {
         margin-right: 10px;
         @include breakpoint(small down) {
@@ -390,6 +391,7 @@
       @include breakpoint(small down) {
         flex-direction: column;
         padding: 20px;
+        width: 100%;
       }
     }
     &__action-text {
@@ -423,7 +425,7 @@
       }
     }
   }
-  .joing-protest {
+  .join-protest {
     color: #fff;
     max-width: 80%;
     margin: auto;

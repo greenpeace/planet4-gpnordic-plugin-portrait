@@ -6,7 +6,6 @@ Vue.component('background-image', {
     return {
       c: 'image',
       run: true,
-      stop_update: false,
       images: [],
     }
   },

@@ -1,27 +1,28 @@
 <?php
 if( function_exists('acf_add_local_field_group') ):
-
+global $post;
+print_r( $post );
 acf_add_local_field_group(array(
 	'key' => 'group_5ea7e0d8a6c6c',
 	'title' => 'Petition',
 	'fields' => array(
-		// array(
-		// 	'key' => 'field_5eb3c5e0d94cd',
-		// 	'label' => 'Callout',
-		// 	'name' => '',
-		// 	'type' => 'message',
-		// 	'instructions' => '',
-		// 	'required' => 0,
-		// 	'conditional_logic' => 0,
-		// 	'wrapper' => array(
-		// 		'width' => '',
-		// 		'class' => '',
-		// 		'id' => '',
-		// 	),
-		// 	'message' => 'Use shortcode [] to include this petition in your page.',
-		// 	'new_lines' => 'wpautop',
-		// 	'esc_html' => 0,
-		// ),
+		array(
+			'key' => 'field_5eb3c5e0d94cd',
+			'label' => 'Callout',
+			'name' => '',
+			'type' => 'message',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => 'Use shortcode [petition id="YOUR_ID"] to include this petition in your page. You will find the ID in the url while editing this petition.',
+			'new_lines' => 'wpautop',
+			'esc_html' => 0,
+		),
 		array(
 			'key' => 'field_5ea7e0e1544cb',
 			'label' => 'Country',
