@@ -22,10 +22,10 @@ class GPPT_Petition_Controller {
 		wp_enqueue_script( 'fabric', $plugin_uri . 'assets/js/fabric.min.js', array(), $version, false );
 		wp_enqueue_script( 'plugin-gppt' );
 	}
-
 	public static function handle_shortcode( $atts = array() ) {
 		GPPT_Petition_Controller::enqueue_public_assets();
 		$petition_id = $atts['id'];
+		$translations = get_field( 'translations', $petition_id );
 		$localize = array(
 			'site_url' => get_site_url(),
 			'gppt_url' => GPPT_PLUGIN_ROOT,
@@ -47,28 +47,28 @@ class GPPT_Petition_Controller {
 				'encouragement' => get_field( 'encouragement', $petition_id ),
 			),
 			'translations' => array(
-				'Join the protest' => __( 'Join the protest', 'gppt' ),
-				'About this demand' => __( 'About this demand', 'gppt' ),
-				'Snap a picture and join the protest by allowing the app to use the camera on your device. You can also proceed without a picture.' => __( 'Snap a picture and join the protest by allowing the app to use the camera on your device. You can also proceed without a picture.' ),
-				'First Name' => __('First Name', 'gppt'),
-				'Last Name' => __('Last Name', 'gppt'),
-				'E-mail' => __('E-mail', 'gppt'),
-				'Phone' => __('Phone', 'gppt'),
-				'Phone' => __('Phone', 'gppt'),
-				'Leave a comment' => __('Leave a comment', 'gppt'),
-				'I accept the terms' => __('I accept the terms', 'gppt'),
-				'Keep me posted' => __('Keep me posted', 'gppt'),
-				'Make sure you have entered your name and provided a working e-mail address.' => __('Make sure you have entered your name and provided a working e-mail address.', 'gppt'),
-				'Back' => __('Back', 'gppt'),
-				'Send' => __('Send', 'gppt'),
-				'Next step' => __('Next step', 'gppt'),
-				'Take photo' => __('Take photo', 'gppt'),
-				'Proceed without camera' => __('Proceed without camera', 'gppt'),
-				'Please enable your camera to snap a picture of yourself.' => __('Please enable your camera to snap a picture of yourself.', 'gppt'),
-				'Or click here to continue without camera.' => __('Or click here to continue without camera.', 'gppt'),
-				'the terms' => __('the terms', 'gppt'),
-				'YES' => __('YES', 'gppt'),
-				'NO' => __('NO', 'gppt'),
+				'Join the protest' => $translations['join_the_protest'],
+				'About this demand' => $translations['about_this_demand'],
+				'Snap a picture and join the protest by allowing the app to use the camera on your device. You can also proceed without a picture.' => $translations['snap_a_picture_and_join_the_protest_by_allowing_the_app_to_use_the_camera_on_your_device_you_can_also_proceed_without_a_picture'],
+				'First Name' => $translations['first_name'],
+				'Last Name' => $translations['last_name'],
+				'E-mail' => $translations['e-mail'],
+				'Phone' => $translations['phone'],
+				'Leave a comment' => $translations['leave_a_comment'],
+				'I accept the terms' => $translations['i_accept_the_terms'],
+				'Keep me posted' => $translations['keep_me_posted'],
+				'Make sure you have entered your name and provided a working e-mail address.' => $translations['keep_me_posted'],
+				'Back' => $translations['back'],
+				'Send' => $translations['send'],
+				'Next step' => $translations['next_step'],
+				'Take photo' => $translations['take_photo'],
+				'Proceed without camera' => $translations['proceed_without_camera'],
+				'Please enable your camera to snap a picture of yourself.' => $translations['please_enable_your_camera_to_snap_a_picture_of_yourself'],
+				'Or click here to continue without camera.' => $translations['or_click_here_to_continue_without_camera'],
+				// 'the terms' => __('the terms', 'gppt'),
+				'Yes' => $translations['yes'],
+				'No' => $translations['no'],
+				'Download image' => $translations['download_image'],
 			)
 		);
 		wp_localize_script( 'plugin-gppt', 'greenpeace_petition_ajax', $localize );

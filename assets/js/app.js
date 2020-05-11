@@ -2,12 +2,12 @@ jQuery(function() {
 	new Vue({
 		el: '#background',
 		template: `
-			<div class="background" :class="{'background--blurr' : blurr}"><background-image v-for="image in images" :image="image"></background-image></div>
+			<div class="background" :class="{'background--blur' : blur}"><background-image v-for="image in images" :image="image"></background-image></div>
 		`,
 		data: {
 			numBoxes: 100,
 			images: [],
-			blurr: false,
+			blur: false,
 		},
 		mounted: function() {
 			jQuery.get( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, { petition_id: greenpeace_petition_ajax.petition.id, num_images: this.numBoxes }, (result) => {
@@ -22,10 +22,10 @@ jQuery(function() {
 			window.addEventListener('scroll', (e) => {
 				let scrollTop = jQuery(window).scrollTop()
 				if( scrollTop > 100 ) {
-					this.blurr = true
+					this.blur = true
 				}
 				if( scrollTop < 100 ) {
-					this.blurr = false
+					this.blur = false
 				}
 			});
 		},
@@ -37,9 +37,8 @@ jQuery(function() {
 		el: '#app',
 		template: `<div>
 			<div class="join-protest" v-if="step == 5">
-				<div v-html="join_protest_text"></div>
 				<div class="tp-40 small-tp-20">
-					<a @click="step = 0" class="button" v-text="greenpeace_petition_ajax.translations['Join the protest']"></a>
+					<a @click="setStep(0)" class="button button--chat" v-text="greenpeace_petition_ajax.translations['Join the protest']"></a>
 				</div>
 			</div>
 			<div class="category-select" v-if="step < 3">
@@ -73,7 +72,7 @@ jQuery(function() {
 					<div class="caption tp-40" v-if="!loading">
 						<h4 v-text="encouragement">Ge finansministern dina lånevillkor genom att signera nedan</h4>
 					</div>
-					<div style="min-height: 700px;" v-if="loading">
+					<div v-if="loading">
 						<loader></loader>
 					</div>
 					<div class="form" v-if="!loading">
@@ -109,8 +108,8 @@ jQuery(function() {
 								<h5>{{projections_title}}</h5>
 								<p v-text="projections_text"></p>
 								<div class="switch" :class="{'switch--active' : details.projections}" @click="details.projections = !details.projections">
-									<span :class="{'active' : details.projections}">{{greenpeace_petition_ajax.translations['YES']}}</span>
-									<span :class="{'active' : !details.projections}">{{greenpeace_petition_ajax.translations['NO']}}</span>
+									<span :class="{'active' : details.projections}">{{greenpeace_petition_ajax.translations['Yes']}}</span>
+									<span :class="{'active' : !details.projections}">{{greenpeace_petition_ajax.translations['No']}}</span>
 								</div>
 							</div>
 							<div class="social-sharing__action-image">
@@ -122,8 +121,8 @@ jQuery(function() {
 								<h5>{{articles_title}}</h5>
 								<p v-text="articles_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed odio nec nunc luctus rhoncus at eu nunc.</p>
 								<div class="switch" :class="{'switch--active' : details.articles}" @click="details.articles = !details.articles">
-									<span :class="{'active' : details.articles}">{{greenpeace_petition_ajax.translations['YES']}}</span>
-									<span :class="{'active' : !details.articles}">{{greenpeace_petition_ajax.translations['NO']}}</span>
+									<span :class="{'active' : details.articles}">{{greenpeace_petition_ajax.translations['Yes']}}</span>
+									<span :class="{'active' : !details.articles}">{{greenpeace_petition_ajax.translations['No']}}</span>
 								</div>
 							</div>
 							<div class="social-sharing__action-image">
@@ -141,15 +140,18 @@ jQuery(function() {
 					<div class="bullet" v-for="i in 3" @click="i < 3 && setStep(i)" :class="{ 'bullet--active' : step == i }"></div>
 				</div>
 				<div class="tp-60 small-tp-40" v-show="step == 4">
-					<img v-if="thank_you_image" :src="thank_you_image.url" />
+					<img v-if="thank_you_image" :src="composition" />
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
+						<div class="tm-30">
+							<a :href="composition" download="green-peace.png" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>`,
 		data: {
-			step: 5,
+			step: 0,
 			video_width: 640,
 			video_height: 640,
       canvas: {},
@@ -198,8 +200,14 @@ jQuery(function() {
 			active_color_index: 0,
 		},
 		mounted: function() {
-			this.getQueryVariable('join') ? this.step = 5 : this.step = 0
+			if( this.getQueryVariable('join') ) {
+				console.log( this.getQueryVariable('join') )
+				this.setStep( 5 )
+				// jQuery( '.app-content' ).hide()
+				jQuery( 'body' ).addClass( 'join' )
+			}
 			Vue.nextTick(() => {
+
 			})
 		},
 		computed: {
@@ -264,7 +272,10 @@ jQuery(function() {
 						this.video_width = video_wrapper[0].offsetWidth
 						this.video_height = video_wrapper[0].offsetWidth
 					}
-					this.scrollFormIntoView()
+					jQuery( 'body' ).attr('data-step', step)
+					if( this.step !== 0 && this.step !== 5 ) {
+						this.scrollFormIntoView()
+					}
 				})
 			},
 			scrollFormIntoView() {

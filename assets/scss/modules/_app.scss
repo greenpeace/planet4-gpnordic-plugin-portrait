@@ -1,3 +1,15 @@
+body[data-step="5"].join {
+  .app-content {
+    display: none;
+  }
+  .join-protest {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 .gp-petition {
   // background-color: $blue--dark;
   .app-container {
@@ -172,6 +184,10 @@
       h1 {
         font-size: 96px;
         line-height: 112px;
+        @include breakpoint(medium down) {
+          font-size: 64px;
+          line-height: 84px;
+        }
       }
       h3 {
         color: white;
@@ -310,7 +326,7 @@
     filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
     transition: all 400ms ease;
 
-    &--blurr {
+    &--blur {
       filter: url(../images/icons/blur.svg#blur);
       -webkit-filter: blur(10px);
       filter: blur(10px);
@@ -491,6 +507,6 @@
 }
 
 .loader {
-  max-width: 50vh;
+  // max-width: 50vh;
   margin: auto;
 }
