@@ -794,7 +794,7 @@ acf_add_local_field_group(array(
 						'class' => '',
 						'id' => '',
 					),
-					'default_value' => 'Download image',
+					'default_value' => __('Download image', 'gppt'),
 					'placeholder' => '',
 					'prepend' => '',
 					'append' => '',
