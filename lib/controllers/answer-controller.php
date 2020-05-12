@@ -65,7 +65,7 @@ class GPPT_Answer_Controller {
         'image' => $image,
         'image_no_text' => $image_no_text,
       );
-      $timestamp = $dateTime->format('Y-m-d H:i:s');
+      // $timestamp = $dateTime->format('Y-m-d H:i:s');
 
       $hostname = get_field('petition_db_host', 'options');
       $username = get_field('petition_db_username', 'options');
@@ -73,7 +73,7 @@ class GPPT_Answer_Controller {
       $dbname = get_field('petition_db_table_name', 'options');
       $remote_db = new \wpdb($username, $password, $dbname, $hostname);
 
-      $results = $remote_db->get_results("INSERT INTO LEADS VALUES (null, '$email', '$firstname', '$lastname', '$date', '$newsletter', '$source_code', '$country', '$phone', '$utm', '$timestamp');");
+      $results = $remote_db->get_results("INSERT INTO LEADS VALUES (null, '$email', '$firstname', '$lastname', '$date', '$newsletter', '$source_code', '$country', '$phone', '$utm', CURRENT_TIMESTAMP);");
       $remote_db->close();
 
       $upload_dir = wp_upload_dir();
