@@ -39,6 +39,7 @@ class GPPT_Answer_Controller {
     if( !wp_verify_nonce( $nonce, 'gppt-nonce' ) )
       return new \WP_Error( 'not_allowed', "Nonce '$nonce' not valid", array( 'status' => 405 ) );
     try {
+      $dateTime = new \DateTime();
       $petition_id = $args['petition_id'];
       $firstname = $args['firstname'];
       $lastname = $args['lastname'];
@@ -46,7 +47,7 @@ class GPPT_Answer_Controller {
       $phone = $args['phone'];
       $own_protest = $args['own_protest'];
       $terms = $args['terms'];
-      $newsletter = $args['newsletter'];
+      $newsletter = 1; // $args['newsletter'];
       $projections = $args['projections'];
       $articles = $args['articles'];
       $date = date('Y-m-d');
@@ -64,33 +65,16 @@ class GPPT_Answer_Controller {
         'image' => $image,
         'image_no_text' => $image_no_text,
       );
-      //
-      // ini_set ('error_reporting', E_ALL);
-      // ini_set ('display_errors', '1');
-      // error_reporting (E_ALL|E_STRICT);
+      $timestamp = $dateTime->format('Y-m-d H:i:s');
 
-      $db = mysqli_init();
-      mysqli_options($db, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
-      $db->ssl_set(GPPT_PLUGIN_ROOT_URI . 'cert/client-key.pem', GPPT_PLUGIN_ROOT_URI . 'cert/client-cert.pem', GPPT_PLUGIN_ROOT_URI . 'cert/server-ca.pem', NULL, NULL);
-      $link = mysqli_real_connect($db, '35.228.154.201', 'leads_storage', '4$5GHY_78jh', 'LEADS_STORAGE', 3306, NULL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
-      if ($link) {
-        /*
-        ID: "13"
-        EMAIL: "kit@kitkline.co.uk"
-        FIRST_NAME: "Kit"
-        LAST_NAME: "Kline"
-        DATE_SIGNED: "2020-04-17"
-        CONSENT_EMAIL_GIVEN: "1"
-        SOURCE: "FORESTS_CAMPAIGN"
-        COUNTRY: "DK"
-        MOBILE: "+44 123455678"
-        UTM: "A UTM string"
-        */
-        $result = $db->query("INSERT INTO LEADS VALUES (null,'$email','$firstname','$lastname','$date','$newsletter','$source_code','$country','$phone','$utm');");
-        // $result = $db->query("SELECT * FROM LEADS;");
-        $db->close();
-        // return $result->fetch_object();
-      }
+      $hostname = get_field('petition_db_host', 'options');
+      $username = get_field('petition_db_username', 'options');
+      $password = get_field('petition_db_password', 'options');
+      $dbname = get_field('petition_db_table_name', 'options');
+      $remote_db = new \wpdb($username, $password, $dbname, $hostname);
+
+      $results = $remote_db->get_results("INSERT INTO LEADS VALUES (null, '$email', '$firstname', '$lastname', '$date', '$newsletter', '$source_code', '$country', '$phone', '$utm', '$timestamp');");
+      $remote_db->close();
 
       $upload_dir = wp_upload_dir();
       $path = $upload_dir['basedir'] . '/petitions/' . $petition_id;

@@ -92,6 +92,8 @@ jQuery(function() {
 							<input :placeholder="greenpeace_petition_ajax.translations['Leave a comment']" type="text" v-model="details.own_protest">
 						</div>
 						<div class="bm-20 small-bm-10">
+							Legal stuff
+							<!--
 							<label class="checkbox" v-if="!loading">I accept <a :href="terms_url" target="_blank">{{greenpeace_petition_ajax.translations['the terms']}}</a>
 								<input type="checkbox" class="checkbox__input" v-model="details.terms" />
 								<div class="checkbox__box"></div>
@@ -100,6 +102,7 @@ jQuery(function() {
 								<input type="checkbox" class="checkbox__input" v-model="details.newsletter" />
 								<div class="checkbox__box"></div>
 							</label>
+							-->
 						</div>
 					</div>
 					<div class="social-sharing bp-40" v-if="!loading">
@@ -164,8 +167,8 @@ jQuery(function() {
 				email: '',
 				phone: '',
 				own_protest: '',
-				terms: false,
-				newsletter: false,
+				terms: true,
+				newsletter: true,
 				projections: true,
 				articles: true,
 			},
