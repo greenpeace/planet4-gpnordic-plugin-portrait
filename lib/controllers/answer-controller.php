@@ -33,7 +33,7 @@ class GPPT_Answer_Controller {
     }
   }
 
-  // Update Petition
+  // Save submitted data / image
   public static function set($args) {
     $nonce = $args['nonce'];
     if( !wp_verify_nonce( $nonce, 'gppt-nonce' ) )
@@ -61,11 +61,6 @@ class GPPT_Answer_Controller {
       $image_no_text = base64_decode($image_no_text);
       $country = get_field( 'country', $petition_id );
       $source_code = get_field( 'source_code', $petition_id );
-      $images = array(
-        'image' => $image,
-        'image_no_text' => $image_no_text,
-      );
-      // $timestamp = $dateTime->format('Y-m-d H:i:s');
 
       $hostname = get_field('petition_db_host', 'options');
       $username = get_field('petition_db_username', 'options');
@@ -78,6 +73,10 @@ class GPPT_Answer_Controller {
 
       $upload_dir = wp_upload_dir();
       $path = $upload_dir['basedir'] . '/petitions/' . $petition_id;
+      $images = array(
+        'image_no_text' => $image_no_text,
+        'image' => $image,
+      );
       foreach( $images as $key => $i ) {
         $filename = basename( "$hash-$key.jpg" );
         if ( wp_mkdir_p( $path ) ) {
@@ -109,8 +108,9 @@ class GPPT_Answer_Controller {
         update_post_meta( $attach_id, 'newsletter', $newsletter );
         update_post_meta( $attach_id, 'approve_for_projections', $projections );
         update_post_meta( $attach_id, 'approve_for_articles', $articles );
+        $image_url = wp_get_attachment_image_src( $attach_id, 'full' );
       }
-      return true;
+      return $image_url[0];
     } catch( Exception $e ) {
       return $e;
     }

@@ -143,11 +143,11 @@ jQuery(function() {
 					<div class="bullet" v-for="i in 3" @click="i < 3 && setStep(i)" :class="{ 'bullet--active' : step == i }"></div>
 				</div>
 				<div class="tp-60 small-tp-40" v-show="step == 4">
-					<img v-if="thank_you_image" :src="composition" />
+					<img :src="composition" />
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
 						<div class="tm-30">
-							<a :href="composition" download="green-peace.png" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
+							<a :href="thank_you_image" download="green-peace.png" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
 						</div>
 					</div>
 				</div>
@@ -227,6 +227,12 @@ jQuery(function() {
 				}
 				return(false);
 			},
+			getDownloadable: function() {
+				if( !this.composition )
+					return ''
+				console.log( this.composition )
+				return URL.createObjectURL( this.composition )
+			},
 			captureImage: function(image) {
 				this.image = image
 				this.setStep( 2 )
@@ -264,6 +270,7 @@ jQuery(function() {
 					}, response => {
 						this.loading = false
 						this.setStep( 4 )
+						this.thank_you_image = response
 					} )
 				}
 			},

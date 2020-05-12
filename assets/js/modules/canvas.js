@@ -108,13 +108,13 @@ Vue.component('canvas-editor', {
         scaleY: scale,
       })
       let images = {
-        image: this.canvas.toDataURL('image/jpg', 0.9),
+        image: this.canvas.toDataURL('image/png', 0.9),
         image_no_text: null
       }
       this.text.set({
         opacity: 0
       })
-      images.image_no_text = this.canvas.toDataURL('image/jpg', 0.9)
+      images.image_no_text = this.canvas.toDataURL('image/png', 0.9)
       this.$emit('save', images)
       this.text.set({
         scaleX: this.text.scaleX * 0.5,
