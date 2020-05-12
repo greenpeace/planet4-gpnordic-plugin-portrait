@@ -45,6 +45,7 @@ class GPPT_Petition_Controller {
 				'articles_title' => get_field( 'articles_title', $petition_id ),
 				'articles_text' => get_field( 'articles_text', $petition_id ),
 				'encouragement' => get_field( 'encouragement', $petition_id ),
+				'legal_text' => get_field( 'legal_text', $petition_id ),
 			),
 			'translations' => array(
 				'Join the protest' => $translations['join_the_protest'],
@@ -69,6 +70,7 @@ class GPPT_Petition_Controller {
 				'Yes' => $translations['yes'],
 				'No' => $translations['no'],
 				'Download image' => $translations['download_image'],
+				'Category' => $translations['category']
 			)
 		);
 		wp_localize_script( 'plugin-gppt', 'greenpeace_petition_ajax', $localize );

@@ -130,6 +130,10 @@ body[data-step="5"].join {
         &--wide {
           width: 100%;
         }
+        &.legal {
+          color: white;
+          text-align: left;
+        }
       }
     }
     span.arrow {

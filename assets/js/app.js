@@ -44,12 +44,12 @@ jQuery(function() {
 			<div class="category-select" v-if="step < 3">
 				<div class="controls" v-if="categories.length > 1">
 					<a @click="changeCategory('-')" ></a>
-					<h2 v-html="'<span>Category:</span> ' + activeCategory.title"></h2>
+					<h2><span v-html="greenpeace_petition_ajax.translations['Category']"></span> {{ activeCategory.title }}</h2>
 					<a class="next" @click="changeCategory('+')"></a>
 				</div>
 				<blockquote><span v-html="activeCategory.messages[0].message"></span></blockquote>
-				<h6 v-html="greenpeace_petition_ajax.translations['About this demand']"></h6>
-				<div v-html="activeCategory.description"></div>
+				<a class="button button--small" v-html="greenpeace_petition_ajax.translations['About this demand']" v-if="!show_category_description" @click="show_category_description = true"></a>
+				<div v-show="show_category_description" v-html="activeCategory.description"></div>
 				<div class="text-center">
 					<span class="arrow"></span>
 				</div>
@@ -70,7 +70,7 @@ jQuery(function() {
 				<div v-show="step == 3">
 					<img :src="composition" class="tm-40 small-tm-20" v-if="!loading" />
 					<div class="caption tp-40" v-if="!loading">
-						<h4 v-text="encouragement">Ge finansministern dina lånevillkor genom att signera nedan</h4>
+						<h4 v-text="encouragement"></h4>
 					</div>
 					<div v-if="loading">
 						<loader></loader>
@@ -91,6 +91,8 @@ jQuery(function() {
 						<div class="input-wrapper input-wrapper--wide">
 							<input :placeholder="greenpeace_petition_ajax.translations['Leave a comment']" type="text" v-model="details.own_protest">
 						</div>
+						<div class="input-wrapper input-wrapper--wide legal" v-html="legal_text"></div>
+						<!--
 						<div class="bm-20 small-bm-10">
 							<label class="checkbox" v-if="!loading">I accept <a :href="terms_url" target="_blank">{{greenpeace_petition_ajax.translations['the terms']}}</a>
 								<input type="checkbox" class="checkbox__input" v-model="details.terms" />
@@ -101,8 +103,9 @@ jQuery(function() {
 								<div class="checkbox__box"></div>
 							</label>
 						</div>
+						-->
 					</div>
-					<div class="social-sharing bp-40" v-if="!loading">
+					<div class="social-sharing bp-40" v-if="!loading && articles_title !== '' && projections_title !== ''">
 						<div class="social-sharing__action">
 							<div class="social-sharing__action-text">
 								<h5>{{projections_title}}</h5>
@@ -119,7 +122,7 @@ jQuery(function() {
 						<div class="social-sharing__action">
 							<div class="social-sharing__action-text">
 								<h5>{{articles_title}}</h5>
-								<p v-text="articles_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed odio nec nunc luctus rhoncus at eu nunc.</p>
+								<p v-text="articles_text"></p>
 								<div class="switch" :class="{'switch--active' : details.articles}" @click="details.articles = !details.articles">
 									<span :class="{'active' : details.articles}">{{greenpeace_petition_ajax.translations['Yes']}}</span>
 									<span :class="{'active' : !details.articles}">{{greenpeace_petition_ajax.translations['No']}}</span>
@@ -140,11 +143,11 @@ jQuery(function() {
 					<div class="bullet" v-for="i in 3" @click="i < 3 && setStep(i)" :class="{ 'bullet--active' : step == i }"></div>
 				</div>
 				<div class="tp-60 small-tp-40" v-show="step == 4">
-					<img v-if="thank_you_image" :src="composition" />
+					<img :src="composition" />
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
 						<div class="tm-30">
-							<a :href="composition" download="green-peace.png" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
+							<a :href="thank_you_image" download="green-peace.png" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
 						</div>
 					</div>
 				</div>
@@ -158,14 +161,15 @@ jQuery(function() {
       image: '',
 			composition: '',
 			composition_no_text: '',
+			show_category_description: false,
 			details: {
 				firstname: '',
 				lastname: '',
 				email: '',
 				phone: '',
 				own_protest: '',
-				terms: false,
-				newsletter: false,
+				terms: true,
+				newsletter: true,
 				projections: true,
 				articles: true,
 			},
@@ -180,6 +184,7 @@ jQuery(function() {
 			articles_title: greenpeace_petition_ajax.petition.articles_title,
 			articles_text: greenpeace_petition_ajax.petition.articles_text,
 			encouragement: greenpeace_petition_ajax.petition.encouragement,
+			legal_text: greenpeace_petition_ajax.petition.legal_text,
 			active_category_index: 0,
 			error: false,
 			loading: false,
@@ -201,11 +206,10 @@ jQuery(function() {
 		},
 		mounted: function() {
 			if( this.getQueryVariable('join') ) {
-				console.log( this.getQueryVariable('join') )
 				this.setStep( 5 )
-				// jQuery( '.app-content' ).hide()
 				jQuery( 'body' ).addClass( 'join' )
 			}
+			jQuery('body').css({ 'background-color': '#093944' })
 			Vue.nextTick(() => {
 
 			})
@@ -223,6 +227,12 @@ jQuery(function() {
 					return vars[0]
 				}
 				return(false);
+			},
+			getDownloadable: function() {
+				if( !this.composition )
+					return ''
+				console.log( this.composition )
+				return URL.createObjectURL( this.composition )
 			},
 			captureImage: function(image) {
 				this.image = image
@@ -261,11 +271,13 @@ jQuery(function() {
 					}, response => {
 						this.loading = false
 						this.setStep( 4 )
+						this.thank_you_image = response
 					} )
 				}
 			},
 			setStep: function( step ) {
 				this.step = step
+				this.show_category_description = false
 				Vue.nextTick(() => {
 					if( this.step == 1 ) {
 						let video_wrapper = jQuery('.video-wrapper')
@@ -283,7 +295,6 @@ jQuery(function() {
 				jQuery('html, body').stop().animate({ scrollTop: position.top - 80 }, 500, 'swing', () => {})
 			},
 			changeCategory: function( direction ) {
-				console.log( direction, this.active_category_index, this.categories.length )
 				if( direction == '+' )
 					return this.active_category_index = this.active_category_index < this.categories.length - 1 ? this.active_category_index + 1 : 0
 				return this.active_category_index = this.active_category_index > 0 ? this.active_category_index - 1 : this.categories.length - 1

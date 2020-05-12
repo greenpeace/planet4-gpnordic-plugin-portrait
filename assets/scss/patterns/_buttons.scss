@@ -181,7 +181,7 @@
         background-color: $blue--light;
       }
     }
-    &--secondary{
+    &--secondary {
       background-color: rgba($yellow, .1);
       color: $yellow;
       &:before, &:after {
@@ -194,6 +194,10 @@
           opacity: 1;
         }
       }
+    }
+    &--small {
+      font-size: 16px;
+      padding: 12px 20px;
     }
   }
 

@@ -41,7 +41,7 @@ Vue.component('video-capture', {
         if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           this.startCamera()
         } else {
-          console.log( 'No camera' )
+          // console.log( 'No camera' )
           // Todo: show the file input
         }
       }, 400)
@@ -68,7 +68,7 @@ Vue.component('video-capture', {
         this.showVideo = true
         this.error = false
       }).catch(e => {
-        console.log( 'error', e )
+        // console.log( 'error', e )
         this.error = true
         this.showVideo = false
       })
