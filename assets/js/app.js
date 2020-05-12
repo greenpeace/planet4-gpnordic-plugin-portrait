@@ -272,6 +272,7 @@ jQuery(function() {
 						this.loading = false
 						this.setStep( 4 )
 						this.thank_you_image = response
+						dataLayer && dataLayer.push({'event': 'engagementPlugin'})
 					} )
 				}
 			},
