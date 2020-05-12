@@ -48,8 +48,8 @@ jQuery(function() {
 					<a class="next" @click="changeCategory('+')"></a>
 				</div>
 				<blockquote><span v-html="activeCategory.messages[0].message"></span></blockquote>
-				<h6 v-html="greenpeace_petition_ajax.translations['About this demand']"></h6>
-				<div v-html="activeCategory.description"></div>
+				<a class="button button--small" v-html="greenpeace_petition_ajax.translations['About this demand']" v-if="!show_category_description" @click="show_category_description = true"></a>
+				<div v-show="show_category_description" v-html="activeCategory.description"></div>
 				<div class="text-center">
 					<span class="arrow"></span>
 				</div>
@@ -161,6 +161,7 @@ jQuery(function() {
       image: '',
 			composition: '',
 			composition_no_text: '',
+			show_category_description: false,
 			details: {
 				firstname: '',
 				lastname: '',
@@ -276,6 +277,7 @@ jQuery(function() {
 			},
 			setStep: function( step ) {
 				this.step = step
+				this.show_category_description = false
 				Vue.nextTick(() => {
 					if( this.step == 1 ) {
 						let video_wrapper = jQuery('.video-wrapper')
