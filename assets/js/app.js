@@ -70,7 +70,7 @@ jQuery(function() {
 				<div v-show="step == 3">
 					<img :src="composition" class="tm-40 small-tm-20" v-if="!loading" />
 					<div class="caption tp-40" v-if="!loading">
-						<h4 v-text="encouragement">Ge finansministern dina lånevillkor genom att signera nedan</h4>
+						<h4 v-text="encouragement"></h4>
 					</div>
 					<div v-if="loading">
 						<loader></loader>
@@ -91,9 +91,9 @@ jQuery(function() {
 						<div class="input-wrapper input-wrapper--wide">
 							<input :placeholder="greenpeace_petition_ajax.translations['Leave a comment']" type="text" v-model="details.own_protest">
 						</div>
+						<div class="input-wrapper input-wrapper--wide legal" v-html="legal_text"></div>
+						<!--
 						<div class="bm-20 small-bm-10">
-							Legal stuff
-							<!--
 							<label class="checkbox" v-if="!loading">I accept <a :href="terms_url" target="_blank">{{greenpeace_petition_ajax.translations['the terms']}}</a>
 								<input type="checkbox" class="checkbox__input" v-model="details.terms" />
 								<div class="checkbox__box"></div>
@@ -102,8 +102,8 @@ jQuery(function() {
 								<input type="checkbox" class="checkbox__input" v-model="details.newsletter" />
 								<div class="checkbox__box"></div>
 							</label>
-							-->
 						</div>
+						-->
 					</div>
 					<div class="social-sharing bp-40" v-if="!loading">
 						<div class="social-sharing__action">
@@ -183,6 +183,7 @@ jQuery(function() {
 			articles_title: greenpeace_petition_ajax.petition.articles_title,
 			articles_text: greenpeace_petition_ajax.petition.articles_text,
 			encouragement: greenpeace_petition_ajax.petition.encouragement,
+			legal_text: greenpeace_petition_ajax.petition.legal_text,
 			active_category_index: 0,
 			error: false,
 			loading: false,
