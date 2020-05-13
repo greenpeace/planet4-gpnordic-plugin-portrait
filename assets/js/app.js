@@ -48,8 +48,8 @@ jQuery(function() {
 					<a class="next" @click="changeCategory('+')"></a>
 				</div>
 				<blockquote><span v-html="activeCategory.messages[0].message"></span></blockquote>
-				<h6 v-html="greenpeace_petition_ajax.translations['About this demand']"></h6>
-				<div v-html="activeCategory.description"></div>
+				<a class="button button--small" v-html="greenpeace_petition_ajax.translations['About this demand']" v-if="!show_category_description" @click="show_category_description = true"></a>
+				<div v-show="show_category_description" v-html="activeCategory.description"></div>
 				<div class="text-center">
 					<span class="arrow"></span>
 				</div>
@@ -147,7 +147,7 @@ jQuery(function() {
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
 						<div class="tm-30">
-							<a :href="composition" download="greenpeace.jpg" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
+							<a :href="thank_you_image" target="_blank" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
 						</div>
 					</div>
 				</div>
@@ -161,6 +161,7 @@ jQuery(function() {
       image: '',
 			composition: '',
 			composition_no_text: '',
+			show_category_description: false,
 			details: {
 				firstname: '',
 				lastname: '',
@@ -271,11 +272,13 @@ jQuery(function() {
 						this.loading = false
 						this.setStep( 4 )
 						this.thank_you_image = response
+						dataLayer && dataLayer.push({'event': 'engagementPlugin'})
 					} )
 				}
 			},
 			setStep: function( step ) {
 				this.step = step
+				this.show_category_description = false
 				Vue.nextTick(() => {
 					if( this.step == 1 ) {
 						let video_wrapper = jQuery('.video-wrapper')
