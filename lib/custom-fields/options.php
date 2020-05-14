@@ -65,7 +65,7 @@ acf_add_local_field_group(array(
 		),
 		array(
 			'key' => 'field_5eba57b5cb21b',
-			'label' => 'Petition DB Table Name',
+			'label' => 'Petition DB Name',
 			'name' => 'petition_db_table_name',
 			'type' => 'text',
 			'instructions' => '',
