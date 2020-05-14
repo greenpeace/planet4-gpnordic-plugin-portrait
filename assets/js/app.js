@@ -166,7 +166,7 @@ jQuery(function() {
 			</div>
 		</div>`,
 		data: {
-			step: 4,
+			step: 0,
 			video_width: 640,
 			video_height: 640,
       canvas: {},
