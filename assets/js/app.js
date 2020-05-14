@@ -106,6 +106,12 @@ jQuery(function() {
 						-->
 					</div>
 					<div class="social-sharing bp-40" v-if="!loading && articles_title !== '' && projections_title !== ''">
+
+
+
+
+
+
 						<div class="social-sharing__action">
 							<div class="social-sharing__action-text">
 								<h5>{{projections_title}}</h5>
@@ -149,12 +155,18 @@ jQuery(function() {
 						<div class="tm-30">
 							<a :href="thank_you_image" target="_blank" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
 						</div>
+						<div class="tm-30">
+							<div class="">
+								<a href="https://www.facebook.com/sharer/sharer.php?u=https://petition.simmalugnt.dev/petition/" target="_blank" class="button button--facebook">Dela på Facebook</a>
+								<a href="https://twitter.com/home?status=https://petition.simmalugnt.dev/petition/ Join tjh" target="_blank" class="button button--twitter">Dela på Twitter</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>`,
 		data: {
-			step: 0,
+			step: 4,
 			video_width: 640,
 			video_height: 640,
       canvas: {},
