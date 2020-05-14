@@ -55,7 +55,12 @@ Vue.component('canvas-editor', {
   `,
   mounted: function() {
     Vue.nextTick(() => {
-			this.canvas = new fabric.Canvas('canvas')
+      fabric.Object.prototype.set({
+          transparentCorners: false,
+          borderColor: '#ff00ff',
+          cornerColor: '#ff0000'
+      })
+      this.canvas = new fabric.Canvas('canvas')
 			this.canvas.backgroundColor = this.activeColor.background
 			let fonts = [ 'bureau-grot-condensed' ]
 			Promise.all(
@@ -70,9 +75,22 @@ Vue.component('canvas-editor', {
 					fill: this.activeColor.foreground,
 					left: 100,
 					top: 100,
+          transparentCorners: true,
+          cornerColor: this.activeColor.foreground,
+          borderColor: this.activeColor.foreground,
+          cornerSize: 12,
+          padding: 10,
+          // cornerStrokeColor: this.activeColor.foreground,
+          // cornerStyle: 'circle',
+          // borderDashArray: [3, 3]
 				})
+
+        // .set({
+        //   });
+
 				this.canvas.add( this.text )
 				this.text.center()
+        this.canvas.setActiveObject( this.text )
 			})
     })
   },
@@ -141,7 +159,11 @@ Vue.component('canvas-editor', {
 		},
 		setColor: function( index ) {
 			this.activeColorIndex = index
-			this.text.set('fill', this.activeColor.foreground)
+			this.text.set({
+        fill: this.activeColor.foreground,
+        cornerColor: this.activeColor.foreground,
+        borderColor: this.activeColor.foreground
+      })
 			this.canvas.backgroundColor = this.activeColor.background
 			this.updateCanvas()
 		},
