@@ -28,7 +28,7 @@ Vue.component('background-image', {
           this.updateImage()
         }
       }
-		}, lodash.random(4000, 5000))
+		}, lodash.random(4000, 15000))
     document.addEventListener('visibilitychange', (e) => {
       this.run = !this.run
     })
@@ -44,7 +44,6 @@ Vue.component('background-image', {
         return
 			jQuery.get( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, { petition_id: greenpeace_petition_ajax.petition.id }, result => {
 				this.c = 'image image--loading'
-				this.interval = lodash.random(1000, 6000)
         this.images = this.images.concat(result)
 				lodash.delay(() => {
 					this.image = result[0]
