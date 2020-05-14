@@ -147,7 +147,7 @@ jQuery(function() {
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
 						<div class="tm-30">
-							<a :href="thank_you_image" download="green-peace.png" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
+							<a :href="thank_you_image" target="_blank" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
 						</div>
 					</div>
 				</div>

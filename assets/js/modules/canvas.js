@@ -94,39 +94,47 @@ Vue.component('canvas-editor', {
   },
   methods: {
     save: function() {
-      let scale = 2
-			this.canvas.width = this.canvas.width * scale
-			this.canvas.height = this.canvas.height * scale
-      this.text.set({
-        scaleX: this.text.scaleX * scale,
-        scaleY: this.text.scaleY * scale,
-        left: this.text.left * scale,
-        top: this.text.top * scale
-      })
-      this.image && this.image.set({
-        scaleX: scale,
-        scaleY: scale,
-      })
+      // let scale = 2
+			// this.canvas.width = this.canvas.width * scale
+			// this.canvas.height = this.canvas.height * scale
+      // this.text.set({
+      //   scaleX: this.text.scaleX * scale,
+      //   scaleY: this.text.scaleY * scale,
+      //   left: this.text.left * scale,
+      //   top: this.text.top * scale
+      // })
+      // this.image && this.image.set({
+      //   scaleX: scale,
+      //   scaleY: scale,
+      // })
       let images = {
-        image: this.canvas.toDataURL('image/png', 0.9),
+        image: this.canvas.toDataURL({
+          format: 'jpeg',
+          quality: 0.8,
+          multiplier: 2
+        }),
         image_no_text: null
       }
       this.text.set({
         opacity: 0
       })
-      images.image_no_text = this.canvas.toDataURL('image/png', 0.9)
+      images.image_no_text = this.canvas.toDataURL({
+        format: 'jpeg',
+        quality: 0.8,
+        multiplier: 2
+      })
       this.$emit('save', images)
-      this.text.set({
-        scaleX: this.text.scaleX * 0.5,
-        scaleY: this.text.scaleY * 0.5,
-        left: this.text.left * 0.5,
-        top: this.text.top * 0.5,
-        opacity: 1
-      })
-      this.image && this.image.set({
-        scaleX: 1,
-        scaleY: 1,
-      })
+      // this.text.set({
+      //   scaleX: this.text.scaleX * 0.5,
+      //   scaleY: this.text.scaleY * 0.5,
+      //   left: this.text.left * 0.5,
+      //   top: this.text.top * 0.5,
+      //   opacity: 1
+      // })
+      // this.image && this.image.set({
+      //   scaleX: 1,
+      //   scaleY: 1,
+      // })
     },
 		clear: function() {
 			this.$emit('clear')
