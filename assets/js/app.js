@@ -73,7 +73,7 @@ jQuery(function() {
 						<h4 v-text="encouragement"></h4>
 					</div>
 					<div v-if="loading">
-						<loader></loader>
+						<loader :messages="greenpeace_petition_ajax.translations['Loading']"></loader>
 					</div>
 					<div class="form" v-if="!loading">
 						<div class="input-wrapper">

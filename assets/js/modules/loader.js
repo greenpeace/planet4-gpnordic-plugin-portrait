@@ -1,15 +1,24 @@
 Vue.component('loader', {
-  props: [
-  ],
+  props: {
+    messages: {
+      default: [{
+        message: 'Loading...'
+      }]
+    }
+  },
   data: function() {
     return {
+      activeMessageIndex: 0
     }
   },
   template: `
-		<div ref="loader" class="loader"></div>
+    <div class="loader">
+      <div ref="loader">
+        <div v-for="(message, index) in messages" class="message" :class="{ 'message--active' : index == activeMessageIndex }" v-html="message.message"></div>
+      </div>
+    </div>
   `,
   mounted: function() {
-
     lottie.loadAnimation({
       container: this.$refs.loader, // the dom element that will contain the animation
       renderer: 'svg',
@@ -17,6 +26,9 @@ Vue.component('loader', {
       autoplay: true,
       path: `${greenpeace_petition_ajax.gppt_url}/public/json/loader.json` // the path to the animation json
     })
+    setInterval(() => {
+      this.activeMessageIndex = this.activeMessageIndex < this.messages.length - 1 ? this.activeMessageIndex + 1 : 0;
+		}, 4000)
   },
   methods: {
   }
