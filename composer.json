@@ -11,6 +11,20 @@
       "email": "hello@simmalugnt.se"
     }
   ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "extra": {
+    "installer-paths": {
+      "../../plugins/{$name}/": [
+        "wpackagist-plugin/*",
+        "type:wordpress-plugin"
+      ]
+    }
+  },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.3.2",
     "wp-coding-standards/wpcs": "^1.1.0",
