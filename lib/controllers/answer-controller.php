@@ -69,8 +69,9 @@ class GPPT_Answer_Controller {
       $remote_db = new \wpdb($username, $password, $dbname, $hostname);
 
       $results = $remote_db->get_results("INSERT INTO LEADS VALUES (null, '$email', '$firstname', '$lastname', '$date', '$newsletter', '$source_code', '$country', '$phone', '$utm', CURRENT_TIMESTAMP);");
+      // $results = $remote_db->get_results("SELECT * FROM LEADS;");
       $remote_db->close();
-
+      // return $results;
       $upload_dir = wp_upload_dir();
       $path = $upload_dir['basedir'] . '/petitions/' . $petition_id;
       $images = array(

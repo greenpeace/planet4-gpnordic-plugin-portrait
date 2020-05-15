@@ -70,7 +70,8 @@ class GPPT_Petition_Controller {
 				'Yes' => $translations['yes'],
 				'No' => $translations['no'],
 				'Download image' => $translations['download_image'],
-				'Category' => $translations['category']
+				'Category' => $translations['category'],
+				'Loading' => get_field('loader_texts', $petition_id)
 			)
 		);
 		wp_localize_script( 'plugin-gppt', 'greenpeace_petition_ajax', $localize );

@@ -1,0 +1,26 @@
+.loader {
+  margin: auto;
+  position: relative;
+  .message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    opacity: 0;
+    color: white;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: rgba(0,0,0,.5);
+    border-radius: 20px;
+    transition: all .6s ease;
+    z-index: 10;
+    transition-delay: 0;
+    &--active {
+      transform: translate(-50%, -50%);
+      transition-delay: 200ms;
+      opacity: 1;
+    }
+  }
+}
