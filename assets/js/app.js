@@ -133,7 +133,7 @@ jQuery(function() {
 							</div>
 						</div>
 					</div>
-					<div v-show="error" class="callout error" v-html="greenpeace_petition_ajax.translations['Make sure you have entered your name and provided a working e-mail address.']"></div>
+					<div v-show="error" class="callout error" v-html="error_message"></div>
 					<div class="button-wrapper" v-if="!loading">
 						<a class="button button--back button--secondary" @click="step = 2" v-html="greenpeace_petition_ajax.translations['Back']"></a>
 						<a class="button button--send" @click="submit()" v-html="greenpeace_petition_ajax.translations['Send']"></a>
@@ -146,8 +146,14 @@ jQuery(function() {
 					<img :src="composition" />
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
-						<div class="tm-30">
+						<div class="tm-30" v-show="greenpeace_petition_ajax.translations['Download image'] !== ''">
 							<a :href="thank_you_image" target="_blank" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
+						</div>
+						<div class="tm-30">
+							<div class="">
+								<a :href="'https://www.facebook.com/sharer/sharer.php?u=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--facebook">Dela på Facebook</a>
+								<a :href="'https://twitter.com/home?status=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--twitter">Dela på Twitter</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -187,6 +193,7 @@ jQuery(function() {
 			legal_text: greenpeace_petition_ajax.petition.legal_text,
 			active_category_index: 0,
 			error: false,
+			error_message: '',
 			loading: false,
 			colors: [
 				{
@@ -249,31 +256,46 @@ jQuery(function() {
 			submit: function() {
 				let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 				this.error = !this.details.terms || this.details.firstname === '' || this.details.lastname === '' || this.details.email === '' || !re.test(String(this.details.email).toLowerCase())
+				this.error_message = greenpeace_petition_ajax.translations['Make sure you have entered your name and provided a working e-mail address.']
 				if( !this.error ) {
 					this.loading = true
 					this.scrollFormIntoView()
-					jQuery.post( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, {
-						petition_id: greenpeace_petition_ajax.petition.id,
-						utm: greenpeace_petition_ajax.utm,
-						image: this.composition,
-						image_no_text: this.composition_no_text,
-						firstname: this.details.firstname,
-						lastname: this.details.lastname,
-						email: this.details.email,
-						phone: this.details.phone,
-						own_protest: this.details.own_protest,
-						terms: this.details.terms,
-						newsletter: this.details.newsletter,
-						projections: this.details.projections,
-						articles: this.details.articles,
-						nonce: greenpeace_petition_ajax.nonce
-
-					}, response => {
-						this.loading = false
-						this.setStep( 4 )
-						this.thank_you_image = response
-						dataLayer && dataLayer.push({'event': 'engagementPlugin'})
-					} )
+					jQuery.ajax({
+						type: 'POST',
+						url: `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`,
+						data: {
+							petition_id: greenpeace_petition_ajax.petition.id,
+							utm: greenpeace_petition_ajax.utm,
+							image: this.composition,
+							image_no_text: this.composition_no_text,
+							firstname: this.details.firstname,
+							lastname: this.details.lastname,
+							email: this.details.email,
+							phone: this.details.phone,
+							own_protest: this.details.own_protest,
+							terms: this.details.terms,
+							newsletter: this.details.newsletter,
+							projections: this.details.projections,
+							articles: this.details.articles,
+							// nonce: greenpeace_petition_ajax.nonce
+						},
+						dataType: 'json',
+						headers: {
+			        'X-WP-Nonce': greenpeace_petition_ajax.nonce
+				    },
+						success: response => {
+							this.loading = false
+							this.setStep( 4 )
+							this.thank_you_image = response
+							dataLayer && dataLayer.push({'event': 'engagementPlugin'})
+						},
+						error: error => {
+							console.log( 'error', error )
+							this.loading = false
+							this.error = true
+							this.error_message = error.responseJSON.message
+						}
+					})
 				}
 			},
 			setStep: function( step ) {

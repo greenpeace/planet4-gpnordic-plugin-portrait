@@ -27,6 +27,10 @@ body[data-step="5"].join {
     img {
       max-width: 50%;
     }
+    .callout {
+      background-color: $yellow;
+      border: none;
+    }
     .category-select {
       background-color: $blue--dark;
       padding: 50px 50px 30px 50px;

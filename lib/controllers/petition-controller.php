@@ -23,6 +23,7 @@ class GPPT_Petition_Controller {
 		wp_enqueue_script( 'plugin-gppt' );
 	}
 	public static function handle_shortcode( $atts = array() ) {
+		global $post;
 		GPPT_Petition_Controller::enqueue_public_assets();
 		$petition_id = $atts['id'];
 		$translations = get_field( 'translations', $petition_id );
@@ -31,7 +32,7 @@ class GPPT_Petition_Controller {
 			'gppt_url' => GPPT_PLUGIN_ROOT,
 			'petition_id' => $petition_id,
 			'utm' => $_SERVER['QUERY_STRING'],
-			'nonce' => wp_create_nonce( 'gppt-nonce' ),
+			'nonce' => wp_create_nonce( 'wp_rest' ),
 			'petition' => array(
 				'id' => $petition_id,
 				'categories' => get_field( 'categories', $petition_id ),
@@ -46,6 +47,7 @@ class GPPT_Petition_Controller {
 				'articles_text' => get_field( 'articles_text', $petition_id ),
 				'encouragement' => get_field( 'encouragement', $petition_id ),
 				'legal_text' => get_field( 'legal_text', $petition_id ),
+				'url' => get_permalink( $post ),
 			),
 			'translations' => array(
 				'Join the protest' => $translations['join_the_protest'],
@@ -58,7 +60,7 @@ class GPPT_Petition_Controller {
 				'Leave a comment' => $translations['leave_a_comment'],
 				'I accept the terms' => $translations['i_accept_the_terms'],
 				'Keep me posted' => $translations['keep_me_posted'],
-				'Make sure you have entered your name and provided a working e-mail address.' => $translations['keep_me_posted'],
+				'Make sure you have entered your name and provided a working e-mail address.' => $translations['make_sure_you_have_entered_your_name_and_provided_a_working_e-mail_address'],
 				'Back' => $translations['back'],
 				'Send' => $translations['send'],
 				'Next step' => $translations['next_step'],
