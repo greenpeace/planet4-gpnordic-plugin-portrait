@@ -35,9 +35,7 @@ class GPPT_Answer_Controller {
 
   // Save submitted data / image
   public static function set($args) {
-    // $nonce = $args['nonce'];
     $nonce = $args->get_header('X-WP-Nonce');
-    // if( !check_ajax_referer( 'wp_rest', $nonce, false ) )
     if( !wp_verify_nonce( $nonce, 'wp_rest' ) )
       return new \WP_Error( 'not_allowed', "Nonce '$nonce' not valid", array( 'status' => 405 ) );
     try {
@@ -69,9 +67,7 @@ class GPPT_Answer_Controller {
       $password = get_field('petition_db_password', 'options');
       $dbname = get_field('petition_db_table_name', 'options');
       $remote_db = new \wpdb($username, $password, $dbname, $hostname);
-
       $results = $remote_db->get_results("INSERT INTO LEADS VALUES (null, '$email', '$firstname', '$lastname', '$date', '$newsletter', '$source_code', '$country', '$phone', '$utm', CURRENT_TIMESTAMP);");
-      // $results = $remote_db->get_results("SELECT * FROM LEADS;");
       $remote_db->close();
       // return $results;
       $upload_dir = wp_upload_dir();

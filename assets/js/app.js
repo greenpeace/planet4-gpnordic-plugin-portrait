@@ -133,7 +133,7 @@ jQuery(function() {
 							</div>
 						</div>
 					</div>
-					<div v-show="error" class="callout error" v-html="greenpeace_petition_ajax.translations['Make sure you have entered your name and provided a working e-mail address.']"></div>
+					<div v-show="error" class="callout error" v-html="error_message"></div>
 					<div class="button-wrapper" v-if="!loading">
 						<a class="button button--back button--secondary" @click="step = 2" v-html="greenpeace_petition_ajax.translations['Back']"></a>
 						<a class="button button--send" @click="submit()" v-html="greenpeace_petition_ajax.translations['Send']"></a>
@@ -193,6 +193,7 @@ jQuery(function() {
 			legal_text: greenpeace_petition_ajax.petition.legal_text,
 			active_category_index: 0,
 			error: false,
+			error_message: '',
 			loading: false,
 			colors: [
 				{
@@ -255,6 +256,7 @@ jQuery(function() {
 			submit: function() {
 				let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 				this.error = !this.details.terms || this.details.firstname === '' || this.details.lastname === '' || this.details.email === '' || !re.test(String(this.details.email).toLowerCase())
+				this.error_message = greenpeace_petition_ajax.translations['Make sure you have entered your name and provided a working e-mail address.']
 				if( !this.error ) {
 					this.loading = true
 					this.scrollFormIntoView()
@@ -289,6 +291,9 @@ jQuery(function() {
 						},
 						error: error => {
 							console.log( 'error', error )
+							this.loading = false
+							this.error = true
+							this.error_message = error.responseJSON.message
 						}
 					})
 				}
