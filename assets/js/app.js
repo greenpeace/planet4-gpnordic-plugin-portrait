@@ -146,7 +146,7 @@ jQuery(function() {
 					<img :src="composition" />
 					<div class="caption tp-30 bp-50">
 						<div v-html="thank_you_text"></div>
-						<div class="tm-30">
+						<div class="tm-30" v-show="greenpeace_petition_ajax.translations['Download image'] !== ''">
 							<a :href="thank_you_image" target="_blank" class="button" v-html="greenpeace_petition_ajax.translations['Download image']"></a>
 						</div>
 						<div class="tm-30">
