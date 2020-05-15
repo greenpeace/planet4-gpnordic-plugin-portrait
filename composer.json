@@ -2,6 +2,7 @@
   "name": "greenpeace/greenpeace-petition",
   "description": "This repository contains the wordpress plugin that allows petitions with device camera for attaching a photo.",
   "type": "wordpress-plugin",
+  "minimum-stability" : "stable",
   "version": "1.1",
   "license": "GPL-3.0+",
   "authors": [
@@ -10,6 +11,20 @@
       "email": "hello@simmalugnt.se"
     }
   ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "extra": {
+    "installer-paths": {
+      "../../plugins/{$name}/": [
+        "wpackagist-plugin/*",
+        "type:wordpress-plugin"
+      ]
+    }
+  },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.3.2",
     "wp-coding-standards/wpcs": "^1.1.0",
