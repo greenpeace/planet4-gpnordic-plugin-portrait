@@ -60,7 +60,7 @@ class GPPT_Petition_Controller {
 				'Leave a comment' => $translations['leave_a_comment'],
 				'I accept the terms' => $translations['i_accept_the_terms'],
 				'Keep me posted' => $translations['keep_me_posted'],
-				'Make sure you have entered your name and provided a working e-mail address.' => $translations['keep_me_posted'],
+				'Make sure you have entered your name and provided a working e-mail address.' => $translations['make_sure_you_have_entered_your_name_and_provided_a_working_e-mail_address'],
 				'Back' => $translations['back'],
 				'Send' => $translations['send'],
 				'Next step' => $translations['next_step'],

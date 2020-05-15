@@ -106,12 +106,6 @@ jQuery(function() {
 						-->
 					</div>
 					<div class="social-sharing bp-40" v-if="!loading && articles_title !== '' && projections_title !== ''">
-
-
-
-
-
-
 						<div class="social-sharing__action">
 							<div class="social-sharing__action-text">
 								<h5>{{projections_title}}</h5>
