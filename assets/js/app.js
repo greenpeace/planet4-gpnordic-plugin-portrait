@@ -157,8 +157,8 @@ jQuery(function() {
 						</div>
 						<div class="tm-30">
 							<div class="">
-								<a href="https://www.facebook.com/sharer/sharer.php?u=https://petition.simmalugnt.dev/petition/" target="_blank" class="button button--small button--facebook">Dela på Facebook</a>
-								<a href="https://twitter.com/home?status=https://petition.simmalugnt.dev/petition/ Join tjh" target="_blank" class="button button--small button--twitter">Dela på Twitter</a>
+								<a :href="'https://www.facebook.com/sharer/sharer.php?u=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--facebook">Dela på Facebook</a>
+								<a :href="'https://twitter.com/home?status=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--twitter">Dela på Twitter</a>
 							</div>
 						</div>
 					</div>

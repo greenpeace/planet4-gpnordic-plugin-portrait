@@ -23,6 +23,7 @@ class GPPT_Petition_Controller {
 		wp_enqueue_script( 'plugin-gppt' );
 	}
 	public static function handle_shortcode( $atts = array() ) {
+		global $post;
 		GPPT_Petition_Controller::enqueue_public_assets();
 		$petition_id = $atts['id'];
 		$translations = get_field( 'translations', $petition_id );
@@ -46,6 +47,7 @@ class GPPT_Petition_Controller {
 				'articles_text' => get_field( 'articles_text', $petition_id ),
 				'encouragement' => get_field( 'encouragement', $petition_id ),
 				'legal_text' => get_field( 'legal_text', $petition_id ),
+				'url' => get_permalink( $post ),
 			),
 			'translations' => array(
 				'Join the protest' => $translations['join_the_protest'],
