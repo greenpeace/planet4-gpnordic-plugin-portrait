@@ -35,8 +35,10 @@ class GPPT_Answer_Controller {
 
   // Save submitted data / image
   public static function set($args) {
-    $nonce = $args['nonce'];
-    if( !wp_verify_nonce( $nonce, 'gppt-nonce' ) )
+    // $nonce = $args['nonce'];
+    $nonce = $args->get_header('X-WP-Nonce');
+    // if( !check_ajax_referer( 'wp_rest', $nonce, false ) )
+    if( !wp_verify_nonce( $nonce, 'wp_rest' ) )
       return new \WP_Error( 'not_allowed', "Nonce '$nonce' not valid", array( 'status' => 405 ) );
     try {
       $dateTime = new \DateTime();

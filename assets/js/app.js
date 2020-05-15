@@ -157,8 +157,8 @@ jQuery(function() {
 						</div>
 						<div class="tm-30">
 							<div class="">
-								<a href="https://www.facebook.com/sharer/sharer.php?u=https://petition.simmalugnt.dev/petition/" target="_blank" class="button button--facebook">Dela på Facebook</a>
-								<a href="https://twitter.com/home?status=https://petition.simmalugnt.dev/petition/ Join tjh" target="_blank" class="button button--twitter">Dela på Twitter</a>
+								<a href="https://www.facebook.com/sharer/sharer.php?u=https://petition.simmalugnt.dev/petition/" target="_blank" class="button button--small button--facebook">Dela på Facebook</a>
+								<a href="https://twitter.com/home?status=https://petition.simmalugnt.dev/petition/ Join tjh" target="_blank" class="button button--small button--twitter">Dela på Twitter</a>
 							</div>
 						</div>
 					</div>
@@ -264,28 +264,39 @@ jQuery(function() {
 				if( !this.error ) {
 					this.loading = true
 					this.scrollFormIntoView()
-					jQuery.post( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, {
-						petition_id: greenpeace_petition_ajax.petition.id,
-						utm: greenpeace_petition_ajax.utm,
-						image: this.composition,
-						image_no_text: this.composition_no_text,
-						firstname: this.details.firstname,
-						lastname: this.details.lastname,
-						email: this.details.email,
-						phone: this.details.phone,
-						own_protest: this.details.own_protest,
-						terms: this.details.terms,
-						newsletter: this.details.newsletter,
-						projections: this.details.projections,
-						articles: this.details.articles,
-						nonce: greenpeace_petition_ajax.nonce
-
-					}, response => {
-						this.loading = false
-						this.setStep( 4 )
-						this.thank_you_image = response
-						dataLayer && dataLayer.push({'event': 'engagementPlugin'})
-					} )
+					jQuery.ajax({
+						type: 'POST',
+						url: `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`,
+						data: {
+							petition_id: greenpeace_petition_ajax.petition.id,
+							utm: greenpeace_petition_ajax.utm,
+							image: this.composition,
+							image_no_text: this.composition_no_text,
+							firstname: this.details.firstname,
+							lastname: this.details.lastname,
+							email: this.details.email,
+							phone: this.details.phone,
+							own_protest: this.details.own_protest,
+							terms: this.details.terms,
+							newsletter: this.details.newsletter,
+							projections: this.details.projections,
+							articles: this.details.articles,
+							// nonce: greenpeace_petition_ajax.nonce
+						},
+						dataType: 'json',
+						headers: {
+			        'X-WP-Nonce': greenpeace_petition_ajax.nonce
+				    },
+						success: response => {
+							this.loading = false
+							this.setStep( 4 )
+							this.thank_you_image = response
+							dataLayer && dataLayer.push({'event': 'engagementPlugin'})
+						},
+						error: error => {
+							console.log( 'error', error )
+						}
+					})
 				}
 			},
 			setStep: function( step ) {

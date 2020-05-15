@@ -31,7 +31,7 @@ class GPPT_Petition_Controller {
 			'gppt_url' => GPPT_PLUGIN_ROOT,
 			'petition_id' => $petition_id,
 			'utm' => $_SERVER['QUERY_STRING'],
-			'nonce' => wp_create_nonce( 'gppt-nonce' ),
+			'nonce' => wp_create_nonce( 'wp_rest' ),
 			'petition' => array(
 				'id' => $petition_id,
 				'categories' => get_field( 'categories', $petition_id ),

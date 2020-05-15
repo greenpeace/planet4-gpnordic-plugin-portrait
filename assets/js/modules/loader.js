@@ -27,7 +27,7 @@ Vue.component('loader', {
       path: `${greenpeace_petition_ajax.gppt_url}/public/json/loader.json` // the path to the animation json
     })
     setInterval(() => {
-      this.activeMessageIndex = this.activeMessageIndex < this.messages.length - 1 ? this.activeMessageIndex + 1 : 0;
+      this.activeMessageIndex = this.messages && this.activeMessageIndex < this.messages.length - 1 ? this.activeMessageIndex + 1 : 0;
 		}, 4000)
   },
   methods: {
