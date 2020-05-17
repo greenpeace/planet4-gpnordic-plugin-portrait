@@ -1,4 +1,5 @@
 jQuery(function() {
+	if( document.getElementById('gp-petition') )
 	new Vue({
 		el: '#background',
 		template: `
@@ -32,7 +33,7 @@ jQuery(function() {
 		methods: {
 		}
 	})
-
+	if( document.getElementById('gp-petition') )
 	new Vue({
 		el: '#app',
 		template: `<div>
@@ -238,7 +239,6 @@ jQuery(function() {
 			getDownloadable: function() {
 				if( !this.composition )
 					return ''
-				console.log( this.composition )
 				return URL.createObjectURL( this.composition )
 			},
 			captureImage: function(image) {
@@ -324,4 +324,11 @@ jQuery(function() {
 			},
 		}
 	})
+
+	if( document.getElementById('petition-grid') ) {
+		let lazyLoadInstance = new LazyLoad({
+			elements_selector: ".gp-petition--grid__background img",
+			// container: document.getElementById('')
+		})
+	}
 })

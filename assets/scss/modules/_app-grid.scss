@@ -1,0 +1,47 @@
+.gp-petition--grid {
+  position: absolute !important;
+  z-index: 3 !important;
+  background-color: $blue--dark;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+  &__background {
+    font-size: 0;
+  }
+  &__foreground {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    a.button {
+      font-size: 36px;
+      line-height: 36px;
+      padding: 24px 36px;
+      box-shadow: 0 0 24px $blue--dark;
+    }
+  }
+  .image {
+    display: inline-block;
+    width: 12.5vw;
+    height: 12.5vw;
+    opacity: 0.85;
+    transition: all 500ms ease;
+    background-size: cover;
+    @include breakpoint(large down) {
+      width: 20vw;
+      height: 20vw;
+    }
+    @include breakpoint(medium down) {
+      width: 33.3vw;
+      height: 33.3vw;
+    }
+    &--loading {
+      opacity: 0;
+    }
+    &--new {
+      opacity: 1;
+    }
+  }
+}

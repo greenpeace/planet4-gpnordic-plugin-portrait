@@ -1,0 +1,11 @@
+<!-- Petition grid -->
+<div id="petition-grid" class="gp-petition gp-petition--grid">
+  <div class="gp-petition--grid__background">
+    {% for image in images %}
+      <img class="image" data-src="{{ image.image }}">
+    {% endfor %}
+  </div>
+  <div class="gp-petition--grid__foreground">
+    <a href="{{ petition_url }}" class="button button--large">{{ translations.join_the_protest }}</a>
+  </div>
+</div>
