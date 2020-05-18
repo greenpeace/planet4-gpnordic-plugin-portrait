@@ -26,6 +26,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) or die( 'Direct access is forbidden!' );
 
+if ( ! defined( 'GPPT_PLUGIN_ROOT_FILE' ) ) {
+	define( 'GPPT_PLUGIN_ROOT_FILE', __FILE__ );
+}
 if ( ! defined( 'GPPT_PLUGIN_ROOT' ) ) {
 	define( 'GPPT_PLUGIN_ROOT', plugin_dir_url( __FILE__ ) );
 }

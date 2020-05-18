@@ -6,7 +6,7 @@ class GPPT_Petition_Controller {
 		if( ! function_exists('get_plugin_data') ){
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
-		$plugin_data = get_plugin_data( __FILE__ );
+		$plugin_data = get_plugin_data( GPPT_PLUGIN_ROOT_FILE );
 		$version = $plugin_data['Version'];
 		$plugin_uri  = GPPT_PLUGIN_ROOT;
 		wp_enqueue_style( 'plugin-gppt', $plugin_uri . '/css/app.css', [], $version );
@@ -88,7 +88,6 @@ class GPPT_Petition_Controller {
 
 	public static function handle_grid_shortcode( $atts = array() ) {
 		global $post;
-		// print_r( $post );
 		GPPT_Petition_Controller::enqueue_public_assets();
 		$petition_id = isset($atts['petition_id']) ? $atts['petition_id'] : 0;
 		$petition_page_id = isset($atts['page_id']) ? $atts['page_id'] : $post->post_parent;
@@ -176,7 +175,7 @@ class GPPT_Petition_Controller {
 			);
 		}
 
-		$plugin_data = get_plugin_data( __FILE__ );
+		$plugin_data = get_plugin_data( GPPT_PLUGIN_ROOT_FILE );
 		$version = $plugin_data['Version'];
 		$plugin_uri  = GPPT_PLUGIN_ROOT;
 		wp_register_script( 'vue', $plugin_uri . 'bower_components/vue/dist/vue.min.js', array(), $version, false );
