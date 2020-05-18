@@ -86,6 +86,57 @@ class GPPT_Petition_Controller {
 		return $block_output;
 	}
 
+	public static function handle_grid_shortcode( $atts = array() ) {
+		global $post;
+		// print_r( $post );
+		GPPT_Petition_Controller::enqueue_public_assets();
+		$petition_id = isset($atts['petition_id']) ? $atts['petition_id'] : 0;
+		$petition_page_id = isset($atts['page_id']) ? $atts['page_id'] : $post->post_parent;
+		// echo( $petition_id );
+		$image_query = new \WP_Query( array(
+			'post_type' => 'attachment',
+			'posts_per_page' => -1,
+			'orderby' => 'ID',
+			'post_status' => 'any',
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'   => 'petition_id',
+					'value'  => $petition_id,
+					'compare' => '==',
+				),
+				array(
+					'key' => 'image_approved',
+					'value'  => '1',
+					'compare' => '==',
+				),
+			),
+		) );
+		$images = [];
+		foreach( $image_query->posts as $image ) {
+			$images[] = array(
+				'ID' => $image->ID,
+				'image' => wp_get_attachment_image_src( $image->ID, 'medium' )[0]
+			);
+		}
+		$data = array(
+			'images' => $images,
+			'petition_url' => get_permalink( $petition_page_id ),
+			'translations' => get_field( 'translations', $petition_id )
+		);
+		// print_r( $images );
+		// $translations = get_field( 'translations', $petition_page_id );
+		// wp_localize_script( 'plugin-gppt', 'greenpeace_petition_ajax', $localize );
+		// $data = array(
+		// 	'title' => get_the_title( $petition_id ) ,
+		// 	'content' => get_the_content( null, false, $petition_id ),
+		// 	'petition_id' => $petition_id,
+		// );
+		$block_output = \Timber::compile( GPPT_PLUGIN_ROOT_URI . 'templates/blocks/petition-grid.twig', $data, 10, \Timber\Loader::CACHE_NONE );
+
+		return $block_output;
+	}
+
 	/**
 	 * Register meta box(es).
 	 */
@@ -137,4 +188,5 @@ class GPPT_Petition_Controller {
 
 }
 add_shortcode( 'petition', __NAMESPACE__ . '\\GPPT_Petition_Controller::handle_shortcode' );
+add_shortcode( 'petition-grid', __NAMESPACE__ . '\\GPPT_Petition_Controller::handle_grid_shortcode' );
 add_action( 'add_meta_boxes', __NAMESPACE__ . '\\GPPT_Petition_Controller::register_meta_boxes' );
