@@ -3,7 +3,7 @@
  * Plugin Name: Greenpeace - Petition
  * Description: Petitions with device camera for attaching a photo.
  * Plugin URI:
- * Version: 1.0.7
+ * Version: 1.0.8
  * Php Version: 7.0
  *
  * Author: Simma Lugnt
