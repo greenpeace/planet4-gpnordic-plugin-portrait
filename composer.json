@@ -3,7 +3,6 @@
   "description": "This repository contains the wordpress plugin that allows petitions with device camera for attaching a photo.",
   "type": "wordpress-plugin",
   "minimum-stability" : "stable",
-  "version": "1.1",
   "license": "GPL-3.0+",
   "authors": [
     {
@@ -30,5 +29,6 @@
     "wp-coding-standards/wpcs": "^1.1.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
     "phpunit/phpunit": "^6.2"
-  }
+  },
+  "require": {}
 }
