@@ -72,6 +72,8 @@ class GPPT_Petition_Controller {
 				'Yes' => $translations['yes'],
 				'No' => $translations['no'],
 				'Download image' => $translations['download_image'],
+				'Share on Facebook' => $translations['share_on_facebook'],
+				'Share on Twitter' => $translations['share_on_twitter'],
 				'Category' => $translations['category'],
 				'Loading' => get_field('loader_texts', $petition_id)
 			)

@@ -152,8 +152,8 @@ jQuery(function() {
 						</div>
 						<div class="tm-30">
 							<div class="">
-								<a :href="'https://www.facebook.com/sharer/sharer.php?u=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--facebook">Del på Facebook</a>
-								<a :href="'https://twitter.com/home?status=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--twitter">Del på Twitter</a>
+								<a :href="'https://www.facebook.com/sharer/sharer.php?u=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--facebook" v-html="greenpeace_petition_ajax.translations['Share on Facebook']">Del på Facebook</a>
+								<a :href="'https://twitter.com/home?status=' + greenpeace_petition_ajax.petition.url" target="_blank" class="button button--small button--twitter" v-html="greenpeace_petition_ajax.translations['Share on Twitter']">Del på Twitter</a>
 							</div>
 						</div>
 					</div>
