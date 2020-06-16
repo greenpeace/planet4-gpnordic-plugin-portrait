@@ -14,20 +14,18 @@ Vue.component('video-capture', {
   template: `
     <div>
       <div v-bind:style="{ width: width + 'px', height: height + 'px' }" class="video-wrapper">
-        <video v-show="showVideo" ref="video" id="video" :width="width" :height="height" autoplay muted playsinline></video>
-        <div class="video-error" v-if="error">
-          <p v-html="greenpeace_petition_ajax.translations['Please enable your camera to snap a picture of yourself.']">
-
-          </p>
+        <video v-show="showVideo && !isFacebookApp()" ref="video" id="video" :width="width" :height="height" autoplay muted playsinline></video>
+        <div class="video-error" v-if="error || isFacebookApp()">
+          <p v-html="isFacebookApp() ? greenpeace_petition_ajax.translations['If the webcam is not working please visit shorturl in your usual browser!'] : greenpeace_petition_ajax.translations['Please enable your camera to snap a picture of yourself.']"></p>
           <p>
             <a v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Or click here to continue without camera.']"></a>
           </p>
         </div>
       </div>
       <input type="file" accept="image/*" style="display: none;"> <!-- This can be used on devices with no camera -->
-      <a class="button button--camera" v-on:click="capture()" v-if="showVideo" v-html="greenpeace_petition_ajax.translations['Take photo']"></a>
+      <a class="button button--camera" v-on:click="capture()" v-if="showVideo && !isFacebookApp()" v-html="greenpeace_petition_ajax.translations['Take photo']"></a>
       <div>
-        <a class="button button--no-bg" v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Proceed without camera']"></a>
+        <a class="button" :class="{ 'button--no-bg' : !isFacebookApp() }" v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Proceed without camera']"></a>
         <p class="canvas-instructions" v-html="greenpeace_petition_ajax.translations['Snap a picture and join the protest by allowing the app to use the camera on your device. You can also proceed without a picture.']"></p>
       </div>
       <canvas ref="canvas" v-bind:width="width" v-bind:height="height" style="display: none;"></canvas>
@@ -93,5 +91,9 @@ Vue.component('video-capture', {
       })
       this.$emit('capture', imgInstance)
     },
+    isFacebookApp: function () {
+      let ua = navigator.userAgent || navigator.vendor || window.opera
+      return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1)
+    }
   }
 })

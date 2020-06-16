@@ -1,7 +1,5 @@
 <?php
 if( function_exists('acf_add_local_field_group') ):
-global $post;
-print_r( $post );
 acf_add_local_field_group(array(
 	'key' => 'group_5ea7e0d8a6c6c',
 	'title' => 'Petition',
@@ -797,6 +795,25 @@ acf_add_local_field_group(array(
 						'id' => '',
 					),
 					'default_value' => __('Please enable your camera to snap a picture of yourself.', 'gppt'),
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '',
+					'maxlength' => '',
+				),
+				array(
+					'key' => 'field_5ee8892a8b136',
+					'label' => 'If the webcam is not working please visit shorturl in your usual browser!',
+					'name' => 'if_the_webcam_is_not_working_please_visit_shorturl_in_your_usual_browser',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'default_value' => __('If the webcam is not working please visit shorturl in your usual browser!', 'gppt'),
 					'placeholder' => '',
 					'prepend' => '',
 					'append' => '',
