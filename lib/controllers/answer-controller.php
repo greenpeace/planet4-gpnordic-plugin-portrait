@@ -35,9 +35,9 @@ class GPPT_Answer_Controller {
 
   // Save submitted data / image
   public static function set($args) {
-    $nonce = $args->get_header('X-WP-Nonce');
-    if( !wp_verify_nonce( $nonce, 'wp_rest' ) )
-      return new \WP_Error( 'not_allowed', "Nonce '$nonce' not valid", array( 'status' => 405 ) );
+    // $nonce = $args->get_header('X-WP-Nonce');
+    // if( !wp_verify_nonce( $nonce, 'wp_rest' ) )
+    //   return new \WP_Error( 'not_allowed', "Nonce '$nonce' not valid", array( 'status' => 405 ) );
     try {
       $dateTime = new \DateTime();
       $petition_id = $args['petition_id'];
