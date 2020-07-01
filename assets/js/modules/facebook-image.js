@@ -16,7 +16,7 @@ Vue.component('facebook-image', {
   jQuery.getScript("//connect.facebook.net/en_US/sdk.js", function (data, textStatus, jqxhr) {
   window.fbAsyncInit = function() {
       FB.init({
-        appId: '350818262065711',
+        appId: greenpeace_petition_ajax.facebook_app_id,
         autoLogAppEvents: true,
         xfbml: true,
         version: 'v7.0'

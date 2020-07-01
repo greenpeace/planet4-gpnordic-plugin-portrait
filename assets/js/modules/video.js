@@ -75,7 +75,7 @@ Vue.component('video-capture', {
       })
     },
     stopCamera: function() {
-      this.video.srcObject.getTracks().forEach((track) => {
+      this.video.srcObject && this.video.srcObject.getTracks().forEach((track) => {
         track.stop()
       })
     },
