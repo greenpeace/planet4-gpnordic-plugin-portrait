@@ -17,8 +17,9 @@ class GPPT_Petition_Controller {
 		wp_register_script( 'backgroundimage', $plugin_uri . 'public/js/modules/background-image.js', array('vue', 'lodash', 'jquery'), $version, true );
 		wp_register_script( 'loader', $plugin_uri . 'public/js/modules/loader.js', array('vue', 'lottie'), $version, true );
 		wp_register_script( 'video', $plugin_uri . 'public/js/modules/video.js', array('vue', 'lodash', 'jquery'), $version, true );
+		wp_register_script( 'facebook-image', $plugin_uri . 'public/js/modules/facebook-image.js', array('vue', 'lodash', 'jquery'), $version, true );
 		wp_register_script( 'canvas', $plugin_uri . 'public/js/modules/canvas.js', array('vue', 'lodash', 'jquery', 'fontfaceobserver'), $version, true );
-		wp_register_script( 'plugin-gppt', $plugin_uri . 'public/js/app.js', array('backgroundimage', 'video', 'canvas', 'fabric', 'lottie', 'loader'), $version, true );
+		wp_register_script( 'plugin-gppt', $plugin_uri . 'public/js/app.js', array('backgroundimage', 'video', 'canvas', 'fabric', 'lottie', 'loader', 'facebook-image'), $version, true );
 		wp_enqueue_script( 'fabric', $plugin_uri . 'assets/js/fabric.min.js', array(), $version, false );
 		wp_enqueue_script( 'plugin-gppt' );
 	}

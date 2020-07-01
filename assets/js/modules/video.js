@@ -17,13 +17,16 @@ Vue.component('video-capture', {
         <video v-show="showVideo && !isFacebookApp()" ref="video" id="video" :width="width" :height="height" autoplay muted playsinline></video>
         <div class="video-error" v-if="error || isFacebookApp()">
           <p v-html="isFacebookApp() ? greenpeace_petition_ajax.translations['If the webcam is not working please visit shorturl in your usual browser!'] : greenpeace_petition_ajax.translations['Please enable your camera to snap a picture of yourself.']"></p>
+          <facebook-image @capture="captureFacebookImage" :classes="['button', 'button--small']" :caption="greenpeace_petition_ajax.translations['Use my facebook profile picture']"></facebook-image>
           <p>
             <a v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Or click here to continue without camera.']"></a>
           </p>
         </div>
       </div>
-      <input type="file" accept="image/*" style="display: none;"> <!-- This can be used on devices with no camera -->
       <a class="button button--camera" v-on:click="capture()" v-if="showVideo && !isFacebookApp()" v-html="greenpeace_petition_ajax.translations['Take photo']"></a>
+      <div>
+        <facebook-image @capture="captureFacebookImage" :classes="['button', 'button--secondary', 'button--small']" :caption="greenpeace_petition_ajax.translations['Use my facebook profile picture']"></facebook-image>
+      </div>
       <div>
         <a class="button" :class="{ 'button--no-bg' : !isFacebookApp() }" v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Proceed without camera']"></a>
         <p class="canvas-instructions" v-html="greenpeace_petition_ajax.translations['Snap a picture and join the protest by allowing the app to use the camera on your device. You can also proceed without a picture.']"></p>
@@ -90,6 +93,19 @@ Vue.component('video-capture', {
         selectable: false
       })
       this.$emit('capture', imgInstance)
+    },
+    captureFacebookImage: function($event) {
+      fabric.Image.fromURL($event.url, imgInstance => {
+        let scale = this.width / $event.width
+        imgInstance = imgInstance.set({
+          left: 0,
+          top: 0,
+          width: this.width,
+          height: $event.height * scale,
+          selectable: false
+        })
+        this.$emit('capture', imgInstance)
+      })
     },
     isFacebookApp: function () {
       let ua = navigator.userAgent || navigator.vendor || window.opera
