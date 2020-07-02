@@ -125,6 +125,7 @@ Vue.component('canvas-editor', {
       //   scaleX: scale,
       //   scaleY: scale,
       // })
+      this.canvas.renderAll()
       let images = {
         image: this.canvas.toDataURL({
           format: 'jpeg',

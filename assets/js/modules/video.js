@@ -90,22 +90,17 @@ Vue.component('video-capture', {
         top: 0,
         width: this.width,
         height: this.height,
-        selectable: false
+        selectable: false,
       })
       this.$emit('capture', imgInstance)
     },
     captureFacebookImage: function($event) {
-      fabric.Image.fromURL($event.url, imgInstance => {
-        let scale = this.width / $event.width
-        imgInstance = imgInstance.set({
-          left: 0,
-          top: 0,
-          width: this.width,
-          height: $event.height * scale,
-          selectable: false
-        })
-        this.$emit('capture', imgInstance)
-      })
+      fabric.util.loadImage($event.url,
+        (img) => {
+          let imgInstance = new fabric.Image(img)
+          imgInstance.scaleToWidth(this.width)
+          this.$emit('capture', imgInstance)
+        }, null, { left: 0, top: 0, selectable: false, crossOrigin: "Anonymous" })
     },
     isFacebookApp: function () {
       let ua = navigator.userAgent || navigator.vendor || window.opera
