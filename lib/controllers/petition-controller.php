@@ -17,8 +17,9 @@ class GPPT_Petition_Controller {
 		wp_register_script( 'backgroundimage', $plugin_uri . 'public/js/modules/background-image.js', array('vue', 'lodash', 'jquery'), $version, true );
 		wp_register_script( 'loader', $plugin_uri . 'public/js/modules/loader.js', array('vue', 'lottie'), $version, true );
 		wp_register_script( 'video', $plugin_uri . 'public/js/modules/video.js', array('vue', 'lodash', 'jquery'), $version, true );
+		wp_register_script( 'facebook-image', $plugin_uri . 'public/js/modules/facebook-image.js', array('vue', 'lodash', 'jquery'), $version, true );
 		wp_register_script( 'canvas', $plugin_uri . 'public/js/modules/canvas.js', array('vue', 'lodash', 'jquery', 'fontfaceobserver'), $version, true );
-		wp_register_script( 'plugin-gppt', $plugin_uri . 'public/js/app.js', array('backgroundimage', 'video', 'canvas', 'fabric', 'lottie', 'loader'), $version, true );
+		wp_register_script( 'plugin-gppt', $plugin_uri . 'public/js/app.js', array('backgroundimage', 'video', 'canvas', 'fabric', 'lottie', 'loader', 'facebook-image'), $version, true );
 		wp_enqueue_script( 'fabric', $plugin_uri . 'assets/js/fabric.min.js', array(), $version, false );
 		wp_enqueue_script( 'plugin-gppt' );
 	}
@@ -33,6 +34,7 @@ class GPPT_Petition_Controller {
 			'petition_id' => $petition_id,
 			'utm' => $_SERVER['QUERY_STRING'],
 			'nonce' => wp_create_nonce( 'wp_rest' ),
+			'facebook_app_id' => get_field( 'facebook_app_id', 'options' ),
 			'petition' => array(
 				'id' => $petition_id,
 				'categories' => get_field( 'categories', $petition_id ),
@@ -67,6 +69,7 @@ class GPPT_Petition_Controller {
 				'Take photo' => $translations['take_photo'],
 				'Proceed without camera' => $translations['proceed_without_camera'],
 				'Please enable your camera to snap a picture of yourself.' => $translations['please_enable_your_camera_to_snap_a_picture_of_yourself'],
+				'Use my facebook profile picture' => $translations['use_my_facebook_profile_picture'],
 				'If the webcam is not working please visit shorturl in your usual browser!' => $translations['if_the_webcam_is_not_working_please_visit_shorturl_in_your_usual_browser'],
 				'Or click here to continue without camera.' => $translations['or_click_here_to_continue_without_camera'],
 				// 'the terms' => __('the terms', 'gppt'),
