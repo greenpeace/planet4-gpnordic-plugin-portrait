@@ -42,7 +42,8 @@ jQuery(function() {
 					<a @click="setStep(0)" class="button button--chat" v-text="greenpeace_petition_ajax.translations['Join the protest']"></a>
 				</div>
 			</div>
-			<div class="category-select" v-if="step < 3">
+			<!-- Categories -->
+			<div class="category-select" v-if="step < 3 && categories.length > 0">
 				<div class="controls" v-if="categories.length > 1">
 					<a @click="changeCategory('-')" ></a>
 					<h2><span v-html="greenpeace_petition_ajax.translations['Category']"></span> {{ activeCategory.title }}</h2>
@@ -55,6 +56,7 @@ jQuery(function() {
 					<span class="arrow"></span>
 				</div>
 			</div>
+			<!-- Step 0 -->
 			<div v-if="step == 0">
 				<div class="info">
 					<p><span v-html="cta"></span></p>
@@ -287,7 +289,9 @@ jQuery(function() {
 							this.loading = false
 							this.setStep( 4 )
 							this.thank_you_image = response
-							dataLayer && dataLayer.push({'event': 'engagementPlugin'})
+							if (typeof dataLayer !== 'undefined') {
+								dataLayer.push({ 'event': 'engagementPlugin' })
+							}
 						},
 						error: error => {
 							console.log( 'error', error )

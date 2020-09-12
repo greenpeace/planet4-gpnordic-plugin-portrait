@@ -153,30 +153,42 @@ class GPPT_Petition_Controller {
 	 * @param WP_Post $post Current post object.
 	 */
 	public static function petition_image_display_callback( $post ) {
-		$image_query = new \WP_Query( array(
-			'post_type' => 'attachment',
-			'posts_per_page' => -1,
-			'orderby' => 'ID',
-			'post_status' => 'any',
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key'   => 'petition_id',
-					'value'  => $post->ID,
-					'compare' => '==',
-				),
-				array(
-					'key' => 'image_approved',
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		) );
 		$images = [];
-		foreach( $image_query->posts as $image ) {
-			$images[] = array(
-				'ID' => $image->ID,
-				'image' => wp_get_attachment_image_src( $image->ID, 'medium' )[0]
-			);
+		$google_bucket_name = get_field('google_cloud_bucket_name', 'options');
+
+		if( $google_bucket_name !== '' ) { // Use Google Cloud
+			$image_query = GPPT_Image_Controller::get_images(array( 'petition_id' => $post->ID, 'approved' => false ));
+			foreach( $image_query as $key => $image ) {
+				$images[] = array(
+					'ID' => $key,
+					'image' => $image
+				);
+			}
+		} else {
+			$image_query = new \WP_Query( array(
+				'post_type' => 'attachment',
+				'posts_per_page' => -1,
+				'orderby' => 'ID',
+				'post_status' => 'any',
+				'meta_query' => array(
+					'relation' => 'AND',
+					array(
+						'key'   => 'petition_id',
+						'value'  => $post->ID,
+						'compare' => '==',
+					),
+					array(
+						'key' => 'image_approved',
+						'compare' => 'NOT EXISTS',
+					),
+				),
+			) );
+			foreach( $image_query->posts as $image ) {
+				$images[] = array(
+					'ID' => $image->ID,
+					'image' => wp_get_attachment_image_src( $image->ID, 'medium' )[0]
+				);
+			}
 		}
 
 		$plugin_data = get_plugin_data( GPPT_PLUGIN_ROOT_FILE );
@@ -184,7 +196,7 @@ class GPPT_Petition_Controller {
 		$plugin_uri  = GPPT_PLUGIN_ROOT;
 		wp_register_script( 'vue', $plugin_uri . 'bower_components/vue/dist/vue.min.js', array(), $version, false );
 		wp_enqueue_script( 'gp-petition-image-editor', $plugin_uri . 'assets/js/petition-image-editor.js', array( 'vue' ), $version, false );
-		wp_localize_script( 'gp-petition-image-editor', 'greenpeace_petition_admin_ajax', array( 'images' => $images, 'site_url' => get_site_url() ) );
+		wp_localize_script( 'gp-petition-image-editor', 'greenpeace_petition_admin_ajax', array( 'images' => $images, 'petition_id' => $post->ID, 'site_url' => get_site_url() ) );
 		$block_output = \Timber::compile( GPPT_PLUGIN_ROOT_URI . 'templates/blocks/petition-image-editor.twig', [], 10, \Timber\Loader::CACHE_NONE );
 		echo $block_output;
 	}
