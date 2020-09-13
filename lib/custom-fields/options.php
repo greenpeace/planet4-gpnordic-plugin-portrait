@@ -158,6 +158,25 @@ acf_add_local_field_group(array(
 			'append' => '',
 			'maxlength' => '',
 		),
+		array(
+			'key' => 'field_5f5ddc43d6dd3',
+			'label' => 'Google Cloud Base Directory',
+			'name' => 'google_cloud_base_directory',
+			'type' => 'text',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => 'planet4-gnordic-plugin-portrait',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+		),
 	),
 	'location' => array(
 		array(

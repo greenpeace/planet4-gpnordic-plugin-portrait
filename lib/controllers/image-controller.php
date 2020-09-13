@@ -17,7 +17,7 @@ class GPPT_Image_Controller {
 		]);
 		$bucket = $storage->bucket($bucket_name);
 		$object = $bucket->object( $args['id'] );
-		$prefix = ($args['approved'] ? 'approved' : 'rejected') . '/' . $args['petition_id'] . '/';
+		$prefix = get_field('google_cloud_base_directory', 'options') . '/' . ($args['approved'] ? 'approved' : 'rejected') . '/' . $args['petition_id'] . '/';
 		$filname_path = explode('/', $args['id']);
     	$object->copy($bucket, ['name' => $prefix . end($filname_path)]);
 		$object->delete();
@@ -35,7 +35,7 @@ class GPPT_Image_Controller {
 			'projectId' => $project_id
 		]);
 		$bucket = $storage->bucket($bucket_name);
-		$prefix = $args['petition_id'];
+		$prefix = get_field('google_cloud_base_directory', 'options') . '/' . $args['petition_id'];
 		if( $args['approved'] ) {
 			$prefix = 'approved/' . $prefix . '/';
 		}
@@ -61,7 +61,7 @@ class GPPT_Image_Controller {
 		]);
 		$bucket = $storage->bucket($bucket_name);
 		$object = $bucket->upload($args['image'], [
-			'name' => $args['attachment_data']['petition_id'] . "/" . $args['filename'],
+			'name' => get_field('google_cloud_base_directory', 'options') . '/' . $args['attachment_data']['petition_id'] . "/" . $args['filename'],
 			'metadata' => array(
 				'metadata' => $args['attachment_data']
 			)
