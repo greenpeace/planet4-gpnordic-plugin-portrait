@@ -12,6 +12,7 @@ jQuery(function() {
 		},
 		mounted: function() {
 			jQuery.get( `${greenpeace_petition_ajax.site_url}/wp-json/gppt/v1/answers`, { petition_id: greenpeace_petition_ajax.petition.id, num_images: this.numBoxes }, (result) => {
+				result = Array.isArray(result) ? result : Object.values(result)
 				let images = result
 				if( result.length < this.numBoxes ) {
 					for(let i=0; i < this.numBoxes; i++){
