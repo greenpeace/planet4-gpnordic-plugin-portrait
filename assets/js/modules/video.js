@@ -9,28 +9,25 @@ Vue.component('video-capture', {
       canvas: {},
       showVideo: false,
       error: false,
+      step: 0,
     }
   },
   template: `
     <div>
       <div v-bind:style="{ width: width + 'px', height: height + 'px' }" class="video-wrapper">
-        <video v-show="showVideo && !isFacebookApp()" ref="video" id="video" :width="width" :height="height" autoplay muted playsinline></video>
-        <div class="video-error" v-if="error || isFacebookApp()">
-          <p v-html="isFacebookApp() ? greenpeace_petition_ajax.translations['If the webcam is not working please visit shorturl in your usual browser!'] : greenpeace_petition_ajax.translations['Please enable your camera to snap a picture of yourself.']"></p>
-          <facebook-image @capture="captureFacebookImage" :classes="['button', 'button--small']" :caption="greenpeace_petition_ajax.translations['Use my facebook profile picture']"></facebook-image>
-          <p>
-            <a v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Or click here to continue without camera.']"></a>
-          </p>
+        <video v-show="showVideo && step > 0 && !isFacebookApp()" ref="video" id="video" :width="width" :height="height" autoplay muted playsinline></video>
+        <div class="video-error" v-if="step == 0">
+          <div>
+            <facebook-image @capture="captureFacebookImage" :classes="['button', 'button--facebook', 'bm-20']" :caption="greenpeace_petition_ajax.translations['Use my facebook profile picture']"></facebook-image>
+          </div>
+          <a class="button button--secondary button--camera bm-20" @click="step = 1" v-if="showVideo && !isFacebookApp()" v-html="greenpeace_petition_ajax.translations['Use device camera']"></a>
+          <div>
+            <a class="button" :class="{ 'button--no-bg' : !isFacebookApp() }" @click="capture(false)" v-html="greenpeace_petition_ajax.translations['Proceed without camera']"></a>
+          </div>
         </div>
+        <a class="button--capture button button--primary button--camera bm-20" @click="capture()" v-if="showVideo && !isFacebookApp() && step == 1" v-html="greenpeace_petition_ajax.translations['Take photo']"></a>
       </div>
-      <a class="button button--camera" v-on:click="capture()" v-if="showVideo && !isFacebookApp()" v-html="greenpeace_petition_ajax.translations['Take photo']"></a>
-      <div>
-        <facebook-image @capture="captureFacebookImage" :classes="['button', 'button--secondary', 'button--small']" :caption="greenpeace_petition_ajax.translations['Use my facebook profile picture']"></facebook-image>
-      </div>
-      <div>
-        <a class="button" :class="{ 'button--no-bg' : !isFacebookApp() }" v-on:click="capture(false)" v-html="greenpeace_petition_ajax.translations['Proceed without camera']"></a>
-        <p class="canvas-instructions" v-html="greenpeace_petition_ajax.translations['Snap a picture and join the protest by allowing the app to use the camera on your device. You can also proceed without a picture.']"></p>
-      </div>
+      <a class="button button--back button--secondary button--small" @click="step = 0" v-if="step == 1" v-html="greenpeace_petition_ajax.translations['Back']"></a>
       <canvas ref="canvas" v-bind:width="width" v-bind:height="height" style="display: none;"></canvas>
     </div>
   `,

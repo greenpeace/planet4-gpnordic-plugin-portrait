@@ -43,8 +43,8 @@ jQuery(function() {
 				</div>
 			</div>
 			<!-- Categories -->
-			<div class="category-select" v-if="step < 3 && categories.length > 0">
-				<div class="controls" v-if="categories.length > 1">
+			<div class="category-select" v-if="step < 3 && categories.length > 1">
+				<div class="controls">
 					<a @click="changeCategory('-')" ></a>
 					<h2><span v-html="greenpeace_petition_ajax.translations['Category']"></span> {{ activeCategory.title }}</h2>
 					<a class="next" @click="changeCategory('+')"></a>

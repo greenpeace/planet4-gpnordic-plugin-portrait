@@ -70,6 +70,7 @@ class GPPT_Petition_Controller {
 				'Proceed without camera' => $translations['proceed_without_camera'],
 				'Please enable your camera to snap a picture of yourself.' => $translations['please_enable_your_camera_to_snap_a_picture_of_yourself'],
 				'Use my facebook profile picture' => $translations['use_my_facebook_profile_picture'],
+				'Use device camera' => $translations['use_device_camera'],
 				'If the webcam is not working please visit shorturl in your usual browser!' => $translations['if_the_webcam_is_not_working_please_visit_shorturl_in_your_usual_browser'],
 				'Or click here to continue without camera.' => $translations['or_click_here_to_continue_without_camera'],
 				// 'the terms' => __('the terms', 'gppt'),
