@@ -35,10 +35,11 @@ class GPPT_Image_Controller {
 			'projectId' => $project_id
 		]);
 		$bucket = $storage->bucket($bucket_name);
-		$prefix = get_field('google_cloud_base_directory', 'options') . '/' . $args['petition_id'];
+		$prefix = $args['petition_id'];
 		if( $args['approved'] ) {
 			$prefix = 'approved/' . $prefix . '/';
 		}
+		$prefix = get_field('google_cloud_base_directory', 'options') . '/' . $prefix;
 		$options = array( 'prefix' => $prefix );
 		$objects = $bucket->objects($options);
 		$images = [];
