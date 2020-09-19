@@ -3,7 +3,7 @@ Vue.component('video-capture', {
     'width',
     'height',
   ],
-  data: function() {
+  data: function () {
     return {
       video: {},
       canvas: {},
@@ -31,12 +31,12 @@ Vue.component('video-capture', {
       <canvas ref="canvas" v-bind:width="width" v-bind:height="height" style="display: none;"></canvas>
     </div>
   `,
-  mounted: function() {
+  mounted: function () {
     Vue.nextTick(() => {
       lodash.delay(() => {
         this.video = this.$refs.video
         this.canvas = this.$refs.canvas
-        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           this.startCamera()
         } else {
           // console.log( 'No camera' )
@@ -45,19 +45,19 @@ Vue.component('video-capture', {
       }, 400)
     })
   },
-  destroyed: function() {
+  destroyed: function () {
     this.stopCamera()
   },
   methods: {
-    startCamera: function() {
+    startCamera: function () {
       let constraints = {
-          video: {
+        video: {
           width: this.width,
           height: this.height,
           facingMode: 'user',
         }
       }
-      navigator.mediaDevices.getUserMedia( constraints ).then(stream => {
+      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         this.video.srcObject = stream
         this.video.setAttribute('autoplay', '')
         this.video.setAttribute('muted', '')
@@ -71,14 +71,21 @@ Vue.component('video-capture', {
         this.showVideo = false
       })
     },
-    stopCamera: function() {
+    stopCamera: function () {
       this.video.srcObject && this.video.srcObject.getTracks().forEach((track) => {
         track.stop()
       })
     },
-    capture: function( takePhoto = true ) {
-      if( !takePhoto ) {
+    capture: function (takePhoto = true) {
+      if (!takePhoto) {
         this.$emit('capture', null)
+        if (typeof dataLayer !== 'undefined') {
+          dataLayer.push({
+            'event': 'engagementPlugin',
+            'eventAction': 'continued without picture',
+            'eventLabel': 'step 2'
+          })
+        }
         return
       }
       let context = this.canvas.getContext("2d").drawImage(this.video, 0, 0, this.width, this.height)
@@ -90,8 +97,15 @@ Vue.component('video-capture', {
         selectable: false,
       })
       this.$emit('capture', imgInstance)
+      if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+          'event': 'engagementPlugin',
+          'eventAction': 'took picture',
+          'eventLabel': 'step 2'
+        })
+      }
     },
-    captureFacebookImage: function($event) {
+    captureFacebookImage: function ($event) {
       fabric.util.loadImage($event.url,
         (img) => {
           let imgInstance = new fabric.Image(img)
