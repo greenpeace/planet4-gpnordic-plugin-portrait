@@ -11,6 +11,7 @@ Vue.component('canvas-editor', {
       activeColorIndex: 0,
       activeMessageIndex: 0,
       text: {},
+      textWasEdited: false,
       colors: [
         {
           foreground: '#FFFFFF',
@@ -85,11 +86,12 @@ Vue.component('canvas-editor', {
           // borderDashArray: [3, 3]
         })
         this.text.on('changed', function (e) {
-          if (typeof dataLayer !== 'undefined') {
+          if (!this.textWasEdited && typeof dataLayer !== 'undefined') {
             dataLayer.push({
               'event': 'engagementPluginOptions',
               'eventAction': 'edit message'
             })
+            this.textWasEdited = true
           }
         })
         // .set({

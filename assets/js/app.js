@@ -338,6 +338,8 @@ jQuery(function () {
 					this.show_category_description = false
 					Vue.nextTick(() => {
 						if (this.step == 0) {
+						}
+						if (this.step == 1) {
 							if (typeof dataLayer !== 'undefined') {
 								dataLayer.push({
 									'event': 'engagementPlugin',
@@ -345,8 +347,6 @@ jQuery(function () {
 									'eventLabel': 'step 1'
 								})
 							}
-						}
-						if (this.step == 1) {
 							let video_wrapper = jQuery('.video-wrapper')
 							this.video_width = video_wrapper[0].offsetWidth
 							this.video_height = video_wrapper[0].offsetWidth

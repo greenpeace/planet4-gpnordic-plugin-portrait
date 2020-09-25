@@ -111,6 +111,13 @@ Vue.component('video-capture', {
           let imgInstance = new fabric.Image(img)
           imgInstance.scaleToWidth(this.width)
           this.$emit('capture', imgInstance)
+          if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+              'event': 'engagementPlugin',
+              'eventAction': 'upload a picture from facebook',
+              'eventLabel': 'step 2'
+            })
+          }
         }, null, { left: 0, top: 0, selectable: false, crossOrigin: "Anonymous" })
     },
     isFacebookApp: function () {
