@@ -2,29 +2,30 @@ Vue.component('canvas-editor', {
   props: [
     'width',
     'height',
-		'image',
+    'image',
     'category',
   ],
-  data: function() {
+  data: function () {
     return {
       canvas: {},
-			activeColorIndex: 0,
+      activeColorIndex: 0,
       activeMessageIndex: 0,
-			text: {},
-			colors: [
-				{
-					foreground: '#FFFFFF',
-					background: '#26AFDC'
-				},
-				{
-					foreground: '#FFFFB9',
-					background: '#00334B'
-				},
-				{
-					foreground: '#00334B',
-					background: '#FFFFB9'
-				},
-			],
+      text: {},
+      textWasEdited: false,
+      colors: [
+        {
+          foreground: '#FFFFFF',
+          background: '#26AFDC'
+        },
+        {
+          foreground: '#FFFFB9',
+          background: '#00334B'
+        },
+        {
+          foreground: '#00334B',
+          background: '#FFFFB9'
+        },
+      ],
     }
   },
   template: `
@@ -53,28 +54,28 @@ Vue.component('canvas-editor', {
       </div>
     </div>
   `,
-  mounted: function() {
+  mounted: function () {
     Vue.nextTick(() => {
       fabric.Object.prototype.set({
-          transparentCorners: false,
-          borderColor: '#ff00ff',
-          cornerColor: '#ff0000'
+        transparentCorners: false,
+        borderColor: '#ff00ff',
+        cornerColor: '#ff0000'
       })
       this.canvas = new fabric.Canvas('canvas')
-			this.canvas.backgroundColor = this.activeColor.background
-			let fonts = [ 'bureau-grot-condensed' ]
-			Promise.all(
-				fonts.map(f => new FontFaceObserver(f).load())
-			).then(() => {
-				if( this.image ) {
-					this.canvas.add( this.image )
-				}
-				this.text = new fabric.IText(this.activeMessage.message, {
-					fontFamily: 'bureau-grot-condensed',
-					fontSize: this.width < 640 ? this.activeMessage.font_size / 2 : this.activeMessage.font_size,
-					fill: this.activeColor.foreground,
-					left: 100,
-					top: 100,
+      this.canvas.backgroundColor = this.activeColor.background
+      let fonts = ['bureau-grot-condensed']
+      Promise.all(
+        fonts.map(f => new FontFaceObserver(f).load())
+      ).then(() => {
+        if (this.image) {
+          this.canvas.add(this.image)
+        }
+        this.text = new fabric.IText(this.activeMessage.message, {
+          fontFamily: 'bureau-grot-condensed',
+          fontSize: this.width < 640 ? this.activeMessage.font_size / 2 : this.activeMessage.font_size,
+          fill: this.activeColor.foreground,
+          left: 100,
+          top: 100,
           transparentCorners: true,
           cornerColor: this.activeColor.foreground,
           borderColor: this.activeColor.foreground,
@@ -83,23 +84,31 @@ Vue.component('canvas-editor', {
           // cornerStrokeColor: this.activeColor.foreground,
           // cornerStyle: 'circle',
           // borderDashArray: [3, 3]
-				})
-
+        })
+        this.text.on('changed', function (e) {
+          if (!this.textWasEdited && typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+              'event': 'engagementPluginOptions',
+              'eventAction': 'edit message'
+            })
+            this.textWasEdited = true
+          }
+        })
         // .set({
         //   });
 
-				this.canvas.add( this.text )
-				this.text.center()
-        this.canvas.setActiveObject( this.text )
-			})
+        this.canvas.add(this.text)
+        this.text.center()
+        this.canvas.setActiveObject(this.text)
+      })
     })
   },
   computed: {
-    activeMessage: function() {
-      return this.category.messages[ this.activeMessageIndex < this.category.messages.length ? this.activeMessageIndex : 0 ]
+    activeMessage: function () {
+      return this.category.messages[this.activeMessageIndex < this.category.messages.length ? this.activeMessageIndex : 0]
     },
-    activeColor: function() {
-      return this.colors[ this.activeColorIndex ]
+    activeColor: function () {
+      return this.colors[this.activeColorIndex]
     },
   },
   watch: {
@@ -108,13 +117,13 @@ Vue.component('canvas-editor', {
       this.updateMessage()
     }
   },
-  destroyed: function() {
+  destroyed: function () {
   },
   methods: {
-    save: function() {
+    save: function () {
       // let scale = 2
-			// this.canvas.width = this.canvas.width * scale
-			// this.canvas.height = this.canvas.height * scale
+      // this.canvas.width = this.canvas.width * scale
+      // this.canvas.height = this.canvas.height * scale
       // this.text.set({
       //   scaleX: this.text.scaleX * scale,
       //   scaleY: this.text.scaleY * scale,
@@ -143,6 +152,13 @@ Vue.component('canvas-editor', {
         multiplier: 2
       })
       this.$emit('save', images)
+      if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+          'event': 'engagementPlugin',
+          'eventAction': 'chose text',
+          'eventLabel': 'step 3'
+        });
+      }
       // this.text.set({
       //   scaleX: this.text.scaleX * 0.5,
       //   scaleY: this.text.scaleY * 0.5,
@@ -155,28 +171,35 @@ Vue.component('canvas-editor', {
       //   scaleY: 1,
       // })
     },
-		clear: function() {
-			this.$emit('clear')
-		},
-		setColor: function( index ) {
-			this.activeColorIndex = index
-			this.text.set({
+    clear: function () {
+      this.$emit('clear')
+    },
+    setColor: function (index) {
+      this.activeColorIndex = index
+      this.text.set({
         fill: this.activeColor.foreground,
         cornerColor: this.activeColor.foreground,
         borderColor: this.activeColor.foreground
       })
-			this.canvas.backgroundColor = this.activeColor.background
-			this.updateCanvas()
-		},
-    changeMessage: function( direction ) {
-      if( direction == '+' ) {
+      this.canvas.backgroundColor = this.activeColor.background
+      this.updateCanvas()
+    },
+    changeMessage: function (direction) {
+      if (direction == '+') {
         this.activeMessageIndex = this.activeMessageIndex < this.category.messages.length - 1 ? this.activeMessageIndex + 1 : 0
       } else {
         this.activeMessageIndex = this.activeMessageIndex > 0 ? this.activeMessageIndex - 1 : this.category.messages.length - 1
       }
       this.updateMessage()
+      if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+          'event': 'engagementPluginOptions',
+          'eventAction': 'choose from prepared messages arrows'
+        })
+      }
+
     },
-    updateMessage: function() {
+    updateMessage: function () {
       this.text.set({
         text: this.activeMessage.message,
         fontSize: this.width < 640 ? this.activeMessage.font_size / 2 : this.activeMessage.font_size,
@@ -184,8 +207,8 @@ Vue.component('canvas-editor', {
       this.text.center()
       this.updateCanvas()
     },
-		updateCanvas: function() {
-			this.canvas.renderAll()
-		}
+    updateCanvas: function () {
+      this.canvas.renderAll()
+    }
   }
 })
