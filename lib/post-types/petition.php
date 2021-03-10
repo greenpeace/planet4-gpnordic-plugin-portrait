@@ -3,7 +3,8 @@ namespace GPPT;
 
 // Create post type
 function create_petition_post_type() {
-  register_post_type( 'petition',
+  register_post_type(
+    'petition',
     array(
       'labels' => array(
         'name' => __( 'Rich Engagement' ),

@@ -47,7 +47,7 @@ class StorageClient
     use ArrayTrait;
     use ClientTrait;
 
-    const VERSION = '1.23.0';
+    const VERSION = '1.23.1';
 
     const FULL_CONTROL_SCOPE = 'https://www.googleapis.com/auth/devstorage.full_control';
     const READ_ONLY_SCOPE = 'https://www.googleapis.com/auth/devstorage.read_only';
@@ -96,7 +96,10 @@ class StorageClient
     public function __construct(array $config = [])
     {
         if (!isset($config['scopes'])) {
-            $config['scopes'] = [self::FULL_CONTROL_SCOPE];
+            $config['scopes'] = [
+                'https://www.googleapis.com/auth/iam',
+                self::FULL_CONTROL_SCOPE,
+            ];
         }
 
         $this->connection = new Rest($this->configureAuthentication($config) + [
